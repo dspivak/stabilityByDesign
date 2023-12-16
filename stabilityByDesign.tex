@@ -42,7 +42,7 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 
 
 % biblatex %
-  \addbibresource{Library20230503.bib} 
+  \addbibresource{Library20231216.bib} 
 
 
 % hyperref %
@@ -66,14 +66,14 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
   	positioning,
   	arrows.meta,
   	shapes,
-%		shadows,
-%		shadings,
-%  	calc,
-%  	fit,
-%  	quotes,
-%  	intersections,
-%    circuits,
-%    circuits.ee.IEC
+		shadows,
+		shadings,
+  	calc,
+  	fit,
+  	quotes,
+  	intersections,
+    circuits,
+    circuits.ee.IEC
   }
   
 
@@ -168,6 +168,71 @@ replacement=\&]{}\ar[r,slash, "{#1}"]\&{}\end{tikzcd}}
 \DeclareSymbolFont{mathx}{U}{mathx}{m}{n}
 \DeclareFontSubstitution{U}{mathx}{m}{n}
 \DeclareMathAccent{\widecheck}{0}{mathx}{"71}
+
+%-------- Tikz diagrams --------%
+
+\tikzset{
+	oriented WD/.style={%everything after equals replaces "oriented WD" in key.
+		every to/.style={out=0,in=180,draw},
+    label/.style={
+    	font=\everymath\expandafter{\the\everymath\scriptstyle},
+      inner sep=0pt,
+      node distance=2pt and -2pt},
+    semithick,
+    node distance=1 and 1,
+    decoration={markings, mark=at position \stringdecpos with \stringdec},
+    ar/.style={postaction={decorate}},
+    execute at begin picture={\tikzset{
+    	x=\bbx, y=\bby,
+      every fit/.style={inner xsep=\bbx, inner ysep=\bby}}}
+    },
+    string decoration/.store in=\stringdec,
+    string decoration={\arrow{stealth};},
+    string decoration pos/.store in=\stringdecpos,
+    string decoration pos=.7,
+    bbx/.store in=\bbx,
+    bbx = 1.5cm,
+    bby/.store in=\bby,
+    bby = 1.5ex,
+    bb port sep/.store in=\bbportsep,
+    bb port sep=1.5,
+    % bb wire sep/.store in=\bbwiresep,
+    % bb wire sep=1.75ex,
+    bb port length/.store in=\bbportlen,
+    bb port length=4pt,
+    bb penetrate/.store in=\bbpenetrate,
+    bb penetrate=0,
+    bb min width/.store in=\bbminwidth,
+    bb min width=1cm,
+    bb rounded corners/.store in=\bbcorners,
+    bb rounded corners=2pt,
+    bb spider/.style={
+    	bb port sep=1, bb port length=10pt, bbx=.4cm, bb min width=.4cm, bby=.8ex},
+    bb small/.style={
+    	bb port sep=1, bb port length=2.5pt, bbx=.4cm, bb min width=.4cm, bby=.7ex},
+		bb medium/.style={
+			bb port sep=1, bb port length=2.5pt, bbx=.4cm, bb min width=.4cm, bby=.9ex},
+    bb/.code 2 args={%When you see this key, run the code below:
+    	\pgfmathsetlengthmacro{\bbheight}{\bbportsep * (max(#1,#2)+1) * \bby}
+      \pgfkeysalso{draw,minimum height=\bbheight,minimum
+       width=\bbminwidth,outer sep=0pt,
+         rounded corners=\bbcorners,thick,
+         prefix after command={\pgfextra{\let\fixname\tikzlastnode}},
+         append after command={\pgfextra{\draw
+            \ifnum #1=0{} \else foreach \i in {1,...,#1} {
+            	($(\fixname.north west)!{\i/(#1+1)}!(\fixname.south west)$) +(-\bbportlen,0) coordinate (\fixname_in\i) -- +(\bbpenetrate,0) coordinate (\fixname_in\i')}\fi 
+  					%Define the endpoints of tickmarks
+            \ifnum #2=0{} \else foreach \i in {1,...,#2} {
+            	($(\fixname.north east)!{\i/(#2+1)}!(\fixname.south east)$) +(-
+\bbpenetrate,0) coordinate (\fixname_out\i') -- +(\bbportlen,0) coordinate (\fixname_out\i)}\fi;
+           }}}
+		},
+			bb name/.style={
+     	append after command={
+				\pgfextra{\node[anchor=north] at (\fixname.north) {#1};}
+			}
+		}
+  }
 
 
 %-------- Renewed commands --------%
@@ -298,10 +363,55 @@ replacement=\&]{}\ar[r,slash, "{#1}"]\&{}\end{tikzcd}}
 
 % David extras
 
+
+
+
+\newcommand{\andreapic}{
+  \begin{tikzpicture}[oriented WD, bb min width =.7cm, bby=1.6ex, bbx=.7cm,bb port length=0pt] 
+    \node[bb port sep=.8, bb={2}{1}, bb name=$\Sigma$] (Sigma1) {};
+    \node[bb port sep=1.6,bb min width=4.3em, bb={2}{3}, below right=-2.5 and 1.5 of Sigma1.south east, bb name=Chassis] (Chassis) {};
+    \node[bb port sep=.9,bb min width=4.3em, bb={2}{4}, below right=-3 and 2 of Chassis_out2, bb name=Motor] (Motor) {};
+  	\node[bb port sep=.8, bb={2}{1}, right=1.5 of Motor.south east, bb name=$\Sigma$] (Sigma2) {};
+    \node[bb={0}{0}, fit={($(Sigma1.north west)+(-.5,1)$) (Chassis) (Motor) ($(Sigma2.east)+(.25,0)$)}] (Y) {};
+    \coordinate (Y_in1) at (Sigma1_in2-|Y.west);
+    \coordinate (Y_in2) at (Chassis_in2-|Y.west);
+    \coordinate (Y_out1) at (Motor_out2-|Y.east);
+    \coordinate (Y_out2) at (Motor_out3-|Y.east);
+    \coordinate (Y_out3) at (Sigma2_out1-|Y.east);
+    \draw[ar] (Y_in1) to node[above=0pt, font=\tiny] {} (Sigma1_in2);
+    \draw[ar] (Y_in2) to node[above=0pt, font=\tiny] {} (Chassis_in2);
+    \draw[ar] (Sigma1_out1) to node[above=0pt, font=\tiny] {Weight} (Chassis_in1);
+    \draw[ar] (Chassis_out1) to node[above=0pt, font=\tiny] {Torque} (Motor_in1);
+    \draw[ar] (Chassis_out2) to node[above=0pt, font=\tiny] {Speed} (Motor_in2);
+    \draw[ar] let \p1=(Motor.south west), \p2=(Motor.south east), \n1={\y1-\bby},\n2=\bbportlen in
+    	(Chassis_out3) to node[above=0pt, font=\tiny] {Cost} (\x1-\n2,\n1) -- (\x2+\n2,\n1) to (Sigma2_in2);
+    \draw[ar] (Motor_out2) to node[above=0pt, font=\tiny, pos=.8] {} (Y_out1);
+    \draw[ar] (Motor_out4) to node[above=0pt, font=\tiny] {Cost} (Sigma2_in1);
+    \draw[ar] (Motor_out3) to node[below=0pt, font=\tiny, pos=.8] {} (Y_out2);
+    \draw[ar] (Sigma2_out1) to node[below=0pt, font=\tiny] {} (Y_out3); 
+    \draw[ar] let \p1=(Motor.north east), \p2=(Sigma1.north west), \n1={\y2+\bby},\n2=\bbportlen in
+    	(Motor_out1) to[in=0] node[right=0pt, font=\tiny] {Motor Weight} (\x1+\n2,\n1) -- (\x2-\n2,\n1) to[out=180] (Sigma1_in1);
+  	\draw[label]
+  		node[left=.3 of Y_in1] {\footnotesize Extra payload}
+  		node[left=.3 of Y_in2] {\footnotesize Velocity}
+  		node[right=.3 of Y_out1] {\footnotesize Voltage}
+  		node[right=.3 of Y_out2] {\footnotesize Current}
+  		node[right=.3 of Y_out3] {\footnotesize Cost \$}
+%  		node[above right=.2 and .3 of Chassis_out1] {\tiny Torque}
+%  		node[above right=.2 and .3 of Chassis_out2] {\tiny Speed}
+%  		node[above right=.2 and .3 of Chassis_out3] {\tiny Cost \$}
+%  		node[above right=.3 and .3 of Motor_out1, align=center, font=\tiny] {Motor\\weight}
+	;	
+  \end{tikzpicture}
+}
+
+
 \newcommand{\rrpos}{\rr_{+}}
-\newcommand{\rrnng}{\rr_{\geq 0}}
+\newcommand{\rrnon}{\rr_{\geq 0}}
 \newcommand{\K}{\cat{K}}
-\newcommand{\Kdag}{\K^\dagger}
+\newcommand{\Kdag}[1][0]{\K^{\rotatebox{180}{$\dagger$}}}
+
+
 
 % Aaron extras
 
@@ -353,14 +463,55 @@ replacement=\&]{}\ar[r,slash, "{#1}"]\&{}\end{tikzcd}}
 
 
 \chapter{Introduction}
+\label{chap.intro}
 
-\chapter{Basic stability theory and Boolean profunctor theory}
+Lyapunov's notion of stability-by-comparison serves as the mathematical foundation of the control-theoretic perspective on dynamical systems. Category theory offers rich theory in which to account for any well-defined sort of comparison.
 
-\chapter{Continuity by co-design}
+In \cite{censi2015mathematical}, Andrea Censi used category theory to explain a theory of \emph{feasibility}, as exemplified in the practice of collaborative engineering design problems. For example, the feasibility of a robot---consisting of a chassis, a motor, and a battery---was considered in terms of traced monoidal categories. In their introductory book  \cite{fong2019seven} originally titled \emph{Seven Sketches}, Fong and Spivak offered a pedagogical account
+\begin{equation}\label{eqn.andreadavidbrendan}\tag{Andrea}
+	\andreapic
+\end{equation}
+of feasibility theory in terms of boolean profunctors. 
 
-\chapter{Adjoint endofunctors of $(\rrnng,\geq)$ as simple systems}
+In this paper, we use the mathematics behind co-design---the (Cartesian) monoidal equipment of \emph{boolean-enriched categories}---to recast Lyapunov's approach to stability. This paper will be concise but self-contained for those acquainted with the ``big-3 of category theory'', \emph{categories}, \emph{functors}, and \emph{natural transformations}. 
+
+**
+
+\subsection{Natural Stability}
+
+Lyapunov gave what turns out to be a beautiful categorical account of stability, though he did not know category theory. What he did know was that comparing dynamical systems---especially to the simplest ones---would offer a way to account for intuitions about energy in mathematical terms. 
+
+\dnote{(Expert Fill:) background on stability, comparing systems, and energy}
+
+
+\paragraph{Class $\K$ functions in analysis.}
+
+\subsection{The simplest systems, from $\K$ to $\Kdag$}
+
+\subsection{Lyapunov in terms of boolean profunctors}
+
+\subsection{Plan of the paper}
+
+Continuity, 
+uniform continuity, 
+stability, and
+class $\Kdag$-stability.
+
+\subsection*{Acknowledgments}
+
+
+
+\chapter{Basic stability theory and boolean profunctor theory}
+\label{chap.stability_and_profunctors}
+
+\chapter{Continuity by co-design (boolean profunctors)}
+\label{}
+
+\chapter{Adjoint endofunctors of $(\rrnon,\geq)$ as simple systems}
+\label{}
 
 \chapter{Classical and $\Kdag$-stability by co-design}
+\label{}
 
 
 
