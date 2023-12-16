@@ -1,0 +1,369 @@
+\documentclass[11pt, one side, article]{memoir}
+
+
+\settrims{0pt}{0pt} % page and stock same size
+\settypeblocksize{*}{36.1pc}{*} % {height}{width}{ratio}
+\setlrmargins{*}{*}{1} % {spine}{edge}{ratio}
+\setulmarginsandblock{.98in}{.98in}{*} % height of typeblock computed
+\setheadfoot{\onelineskip}{2\onelineskip} % {headheight}{footskip}
+\setheaderspaces{*}{1.5\onelineskip}{*} % {headdrop}{headsep}{ratio}
+\checkandfixthelayout
+
+
+\usepackage{amsthm}
+\usepackage{mathtools}
+
+\usepackage[inline]{enumitem}
+\usepackage{ifthen}
+\usepackage[utf8]{inputenc} %allows non-ascii in bib file
+\usepackage{xcolor}
+
+\usepackage[backend=biber, backref=true, maxbibnames = 10, style = alphabetic]{biblatex}
+\usepackage[bookmarks=true, colorlinks=true, linkcolor=blue!50!black,
+citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperref}
+\usepackage[capitalize]{cleveref}
+
+\usepackage{tikz}
+
+\usepackage{amssymb}
+\usepackage{newpxtext}
+\usepackage[varg,bigdelims]{newpxmath}
+\usepackage{mathrsfs}
+\usepackage{dutchcal}
+\usepackage{fontawesome}
+\usepackage{ebproof}
+\usepackage{stmaryrd}
+\usepackage{float}
+
+% cleveref %
+  \newcommand{\creflastconjunction}{, and\nobreakspace} % serial comma
+  \crefformat{enumi}{\card#2#1#3}
+  \crefalias{chapter}{section}
+
+
+% biblatex %
+  \addbibresource{Library20230503.bib} 
+
+
+% hyperref %
+  \hypersetup{final}
+
+% enumitem %
+  \setlist{nosep}
+  \setlistdepth{6}
+
+
+
+% tikz %
+
+
+
+  \usetikzlibrary{ 
+  	cd,
+  	math,
+  	decorations.markings,
+		decorations.pathreplacing,
+  	positioning,
+  	arrows.meta,
+  	shapes,
+%		shadows,
+%		shadings,
+%  	calc,
+%  	fit,
+%  	quotes,
+%  	intersections,
+%    circuits,
+%    circuits.ee.IEC
+  }
+  
+
+\tikzset{
+	tick/.style={postaction={
+  	decorate,
+    decoration={markings, mark=at position 0.5 with
+    	{\draw[-] (0,.4ex) -- (0,-.4ex);}}}
+  }
+} 
+\tikzset{
+	slash/.style={postaction={
+  	decorate,
+    decoration={markings, mark=at position 0.5 with
+    	{\node[font=\footnotesize] {\rotatebox{90}{$\sim$}};}}}
+  }
+} 
+
+% Adjunctions
+\newcommand{\adj}[5][30pt]{%[size] Cat L, Left, Right, Cat R.
+\begin{tikzcd}[ampersand replacement=\&, column sep=#1]
+  #2\ar[r, shift left=4.5pt, "#3"]
+  \ar[r, phantom, "\scriptstyle\Rightarrow"]\&
+  #5\ar[l, shift left=4.5pt, "#4"]
+\end{tikzcd}
+}
+
+\newcommand{\adjr}[5][30pt]{%[size] Cat R, Right, Left, Cat L.
+\begin{tikzcd}[ampersand replacement=\&, column sep=#1]
+  #2\ar[r, shift left=7pt, "#3"]\&
+  #5\ar[l, shift left=7pt, "#4"]
+  \ar[l, phantom, "\scriptstyle\Leftarrow"]
+\end{tikzcd}
+}
+
+\newcommand{\xtickar}[1]{\begin{tikzcd}[baseline=-0.5ex,cramped,sep=small,ampersand 
+replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
+
+\newcommand{\xslashar}[1]{\begin{tikzcd}[baseline=-0.5ex,cramped,sep=small,ampersand 
+replacement=\&]{}\ar[r,slash, "{#1}"]\&{}\end{tikzcd}}
+
+ 
+  % amsthm %
+\theoremstyle{definition}
+\newtheorem{definitionx}{Definition}[chapter]
+\newtheorem{examplex}[definitionx]{Example}
+\newtheorem{remarkx}[definitionx]{Remark}
+\newtheorem{notation}[definitionx]{Notation}
+
+
+\theoremstyle{plain}
+
+\newtheorem{theorem}[definitionx]{Theorem}
+\newtheorem{proposition}[definitionx]{Proposition}
+\newtheorem{corollary}[definitionx]{Corollary}
+\newtheorem{lemma}[definitionx]{Lemma}
+\newtheorem{warning}[definitionx]{Warning}
+\newtheorem{conjecture}[definitionx]{Conjecture}
+\newtheorem*{theorem*}{Theorem}
+\newtheorem*{proposition*}{Proposition}
+\newtheorem*{corollary*}{Corollary}
+\newtheorem*{lemma*}{Lemma}
+\newtheorem*{warning*}{Warning}
+%\theoremstyle{definition}
+%\newtheorem{definition}[theorem]{Definition}
+%\newtheorem{construction}[theorem]{Construction}
+
+\newenvironment{example}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\lozenge$}\examplex}
+  {\popQED\endexamplex}
+  
+ \newenvironment{remark}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\lozenge$}\remarkx}
+  {\popQED\endremarkx}
+  
+  \newenvironment{definition}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\lozenge$}\definitionx}
+  {\popQED\enddefinitionx} 
+
+    
+%-------- Single symbols --------%
+	
+\DeclareSymbolFont{stmry}{U}{stmry}{m}{n}
+\DeclareMathSymbol\fatsemi\mathop{stmry}{"23}
+
+\DeclareFontFamily{U}{mathx}{\hyphenchar\font45}
+\DeclareFontShape{U}{mathx}{m}{n}{
+      <5> <6> <7> <8> <9> <10>
+      <10.95> <12> <14.4> <17.28> <20.74> <24.88>
+      mathx10
+      }{}
+\DeclareSymbolFont{mathx}{U}{mathx}{m}{n}
+\DeclareFontSubstitution{U}{mathx}{m}{n}
+\DeclareMathAccent{\widecheck}{0}{mathx}{"71}
+
+
+%-------- Renewed commands --------%
+
+\renewcommand{\ss}{\subseteq}
+
+%-------- Other Macros --------%
+
+
+\DeclarePairedDelimiter{\present}{\langle}{\rangle}
+\DeclarePairedDelimiter{\copair}{[}{]}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\corners}{\ulcorner}{\urcorner}
+\DeclarePairedDelimiter{\ihom}{[}{]}
+
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Mor}{Mor}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\cod}{cod}
+\DeclareMathOperator{\idy}{idy}
+\DeclareMathOperator{\comp}{com}
+\DeclareMathOperator*{\colim}{colim}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ob}{Ob}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\el}{El}
+\DeclareMathOperator{\Funn}{Fun}
+\DeclareMathOperator{\constt}{const}
+
+
+\newcommand{\tw}{\Cat{Tw}}
+
+\newcommand{\const}[1]{\texttt{#1}}%a constant, or named element of a set
+\newcommand{\Set}[1]{\mathsf{#1}}%a named set
+\newcommand{\ord}[1]{\mathsf{#1}}%an ordinal
+\newcommand{\cat}[1]{\mathcal{#1}}%a generic category
+\newcommand{\Cat}[1]{\mathbf{#1}}%a named category
+\newcommand{\fun}[1]{\mathrm{#1}}%a function
+\newcommand{\Fun}[1]{\mathit{#1}}%a named functor
+
+
+
+
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\then}{\mathbin{\fatsemi}}
+
+\newcommand{\cocolon}{:\!}
+
+
+\newcommand{\iso}{\cong}
+\newcommand{\too}{\longrightarrow}
+\newcommand{\tto}{\rightrightarrows}
+\newcommand{\To}[2][]{\xrightarrow[#1]{#2}}
+\renewcommand{\Mapsto}[1]{\xmapsto{#1}}
+\newcommand{\Tto}[3][13pt]{\begin{tikzcd}[sep=#1, cramped, ampersand replacement=\&, text height=1ex, text depth=.3ex]\ar[r, shift left=2pt, "#2"]\ar[r, shift right=2pt, "#3"']\&{}\end{tikzcd}}
+\newcommand{\Too}[1]{\xrightarrow{\;\;#1\;\;}}
+\newcommand{\from}{\leftarrow}
+\newcommand{\fromm}{\longleftarrow}
+\newcommand{\ffrom}{\leftleftarrows}
+\newcommand{\From}[1]{\xleftarrow{#1}}
+\newcommand{\Fromm}[1]{\xleftarrow{\;\;#1\;\;}}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\inj}{\rightarrowtail}
+\newcommand{\wavyto}{\rightsquigarrow}
+\newcommand{\lollipop}{\multimap}
+\newcommand{\imp}{\Rightarrow}
+\renewcommand{\iff}{\Leftrightarrow}
+\newcommand{\down}{\mathbin{\downarrow}}
+\newcommand{\fromto}{\leftrightarrows}
+\newcommand{\tickar}{\xtickar{}}
+\newcommand{\slashar}{\xslashar{}}
+\newcommand{\card}{\,^{\#}}
+
+\newcommand{\rdag}{^{\rotatebox{0}{$\dagger$}}}
+\newcommand{\ldag}{^{\rotatebox{180}{$\dagger$}}}
+
+\newcommand{\inv}{^{-1}}
+\newcommand{\op}{^\tn{op}}
+
+\newcommand{\tn}[1]{\textnormal{#1}}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\ul}[1]{\underline{#1}}
+\newcommand{\wt}[1]{\widetilde{#1}}
+\newcommand{\wh}[1]{\widehat{#1}}
+\newcommand{\wc}[1]{\widecheck{#1}}
+\newcommand{\ubar}[1]{\underaccent{\bar}{#1}}
+
+
+
+\newcommand{\bb}{\mathbb{B}}
+\newcommand{\cc}{\mathbb{C}}
+\newcommand{\nn}{\mathbb{N}}
+\newcommand{\pp}{\mathbb{P}}
+\newcommand{\qq}{\mathbb{Q}}
+\newcommand{\zz}{\mathbb{Z}}
+\newcommand{\rr}{\mathbb{R}}
+
+
+\newcommand{\finset}{\Cat{Fin}}
+\newcommand{\smset}{\Cat{Set}}
+\newcommand{\lgset}{\Cat{SET}}
+\newcommand{\smcat}{\Cat{Cat}}
+\newcommand{\lgcat}{\Cat{CAT}}
+\newcommand{\prof}{\mathbb{P}\Cat{rof}}
+\newcommand{\catsharp}{\Cat{Cat}^{\sharp}}
+\newcommand{\ppolyfun}{\mathbb{P}\Cat{olyFun}}
+\newcommand{\ccatsharp}{\mathbb{C}\Cat{at}^{\sharp}}
+\newcommand{\ccatsharpdisc}{\mathbb{C}\Cat{at}^{\sharp}_{\tn{disc}}}
+\newcommand{\ccatsharplin}{\mathbb{C}\Cat{at}^{\sharp}_{\tn{lin}}}
+\newcommand{\ccatsharpdisccon}{\mathbb{C}\Cat{at}^{\sharp}_{\tn{disc,con}}}
+\newcommand{\sspan}{\mathbb{S}\Cat{pan}}
+\newcommand{\en}{\Cat{End}}
+
+\newcommand{\set}{\tn{-}\Cat{Set}}
+\newcommand{\coalg}{\tn{-}\Cat{Coalg}}
+
+
+\newcommand{\rest}[2]{#1\big|_{#2}}
+
+
+\newcommand{\slogan}[1]{\begin{center}\textit{#1}\end{center}}
+
+\newcommand{\qand}{\quad\text{and}\quad}
+\newcommand{\qqand}{\qquad\text{and}\qquad}
+\newcommand{\dnote}[1]{{\color{blue}David says:}~#1\quad{\color{blue}$\lozenge$}}
+
+
+% David extras
+
+\newcommand{\rrpos}{\rr_{+}}
+\newcommand{\rrnng}{\rr_{\geq 0}}
+\newcommand{\K}{\cat{K}}
+\newcommand{\Kdag}{\K^\dagger}
+
+% Aaron extras
+
+
+
+%Paulo extras
+
+
+
+
+
+
+
+
+% ---- Changeable document parameters ---- %
+
+\linespread{1.1}
+\allowdisplaybreaks
+\setsecnumdepth{section}
+\settocdepth{section}
+\setlength{\parindent}{15pt}
+
+\settocdepth{chapter}
+
+%--------------- Document ---------------%
+\begin{document}
+
+\title{Stability by co-design}
+
+\author{
+  Aaron Ames \and  \and 
+  David I. Spivak \and\and 
+  Paulo Tabuada}
+
+\date{\vspace{-.2in}}
+
+\maketitle
+
+\begin{abstract}
+\end{abstract}
+
+%\renewcommand\cftchapteraftersnumb{\normalfont}
+\renewcommand\cftbeforechapterskip{2pt plus 1pt}
+
+%\begin{KeepFromToc}
+%\tableofcontents
+%\end{KeepFromToc}
+
+
+
+\chapter{Introduction}
+
+\chapter{Basic stability theory and Boolean profunctor theory}
+
+\chapter{Continuity by co-design}
+
+\chapter{Adjoint endofunctors of $(\rrnng,\geq)$ as simple systems}
+
+\chapter{Classical and $\Kdag$-stability by co-design}
+
+
+
+
+
+\end{document}
