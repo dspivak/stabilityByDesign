@@ -2,7 +2,7 @@
 
 
 \settrims{0pt}{0pt} % page and stock same size
-\settypeblocksize{*}{36.1pc}{*} % {height}{width}{ratio}
+\settypeblocksize{*}{35.3pc}{*} % {height}{width}{ratio}
 \setlrmargins{*}{*}{1} % {spine}{edge}{ratio}
 \setulmarginsandblock{.98in}{.98in}{*} % height of typeblock computed
 \setheadfoot{\onelineskip}{2\onelineskip} % {headheight}{footskip}
@@ -106,6 +106,22 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
   #2\ar[r, shift left=7pt, "#3"]\&
   #5\ar[l, shift left=7pt, "#4"]
   \ar[l, phantom, "\scriptstyle\Leftarrow"]
+\end{tikzcd}
+}
+
+\newcommand{\adjpos}[6][30pt]{%[size] Cat L, Left, Right, Cat R.
+\begin{tikzcd}[ampersand replacement=\&, column sep=#1]
+  #2\ar[r, shift left=4.5pt, "#3"]
+  \ar[r, phantom, "\scriptstyle#6"]\&
+  #5\ar[l, shift left=4.5pt, "#4"]
+\end{tikzcd}
+}
+
+\newcommand{\adjrpos}[6][30pt]{%[size] Cat R, Right, Left, Cat L.
+\begin{tikzcd}[ampersand replacement=\&, column sep=#1]
+  #2\ar[r, shift left=7pt, "#3"]\&
+  #5\ar[l, shift left=7pt, "#4"]
+  \ar[l, phantom, "\scriptstyle#6"]
 \end{tikzcd}
 }
 
@@ -351,13 +367,17 @@ replacement=\&]{}\ar[r,slash, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\coalg}{\tn{-}\Cat{Coalg}}
 
 
+\newcommand{\blank}[1][1pt]{\vspace{#1}\cdot\vspace{#1}}
 \newcommand{\rest}[2]{#1\big|_{#2}}
+
 
 
 \newcommand{\slogan}[1]{\begin{center}\textit{#1}\end{center}}
 
 \newcommand{\qand}{\quad\text{and}\quad}
 \newcommand{\qqand}{\qquad\text{and}\qquad}
+\newcommand{\qor}{\quad\text{or}\quad}
+\newcommand{\qqor}{\qquad\text{or}\qquad}
 \newcommand{\dnote}[1]{{\color{blue}David says:}~#1\quad{\color{blue}$\lozenge$}}
 
 
@@ -406,10 +426,16 @@ replacement=\&]{}\ar[r,slash, "{#1}"]\&{}\end{tikzcd}}
 }
 
 
+\newcommand{\ivlpos}{(0,\infty)}
+\newcommand{\ivlnon}{[0,\infty)}
 \newcommand{\rrpos}{\rr_{>0}}
-\newcommand{\rrnon}{[0,\infty)}
+\newcommand{\rrnon}{\rr_{\geq0}}
 \newcommand{\K}{\cat{K}}
-\newcommand{\Kdag}[1][0]{\K^{\rotatebox{180}{$\dagger$}}}
+
+\newcommand{\Kdag}[1][0]{\K\ldag}
+
+\newcommand{\flr}[2][\blank]{\floor{#1}_{#2}}
+\newcommand{\clg}[2][\blank]{\ceil{#1}_{#2}}
 
 
 
@@ -493,11 +519,11 @@ Lyapunov gave what turns out to be a beautiful categorical account of stability,
 
 \paragraph{Class $\K$ functions in analysis.}
 
-Ones intuitions about the world can be cast in the language of the nonnegative reals, $\rrnon$, which is a highly structured object. Its additive commutative monoid structure $(\rrnon,0,+)$ induces a poset structure $t_1\leq t_2$, defined by. **
+Ones intuitions about the world can be cast in the language of the nonnegative reals, $\ivlnon$, which is a highly structured object. Its additive commutative monoid structure $(\ivlnon,0,+)$ induces a poset structure $t_1\leq t_2$, defined by. **
 
-\subsection{The simplest systems, from $\K$ to $\Kdag$}
+\subsection{Simple systems and rounding: from $\K$ to $\Kdag$}
 
-Adjoints.
+Rounding up and down: as the monad and comonad given by the adjoint endofunctors on $\rrnon$.
 
 \subsection{Lyapunov in terms of boolean profunctors}
 
@@ -521,14 +547,15 @@ Adjoints.
 	\ar[from=C1, to=C2, Rightarrow, ]
 	\ar[from=C1, to=R, right, phantom, "\color{gray}\footnotesize~\tn{cart}"]
 	\ar[from=C2, to=R, right, phantom, 
-		"\footnotesize
+		"\color{gray}
+		\footnotesize
 		\!
 		\text{cart}"
 		]
 \end{tikzcd}
-\qquad\quad
+\qquad
 \parbox{1.3in}{\raggedright\textit{In the case of uniform continuity:}}
-\quad
+\;\;
 \begin{tikzcd}[row sep=1cm, column sep=2.7cm]
 	{(0,\infty)} 
 		\ar[dd, bend left=20pt, ""]
@@ -540,17 +567,22 @@ Adjoints.
 		\ar[dd, bend left=20pt, "d_M"]
 		\ar[dd, bend right=20pt, "d_N\circ(f\times f)"'] 
 	\\~\\
-	\rrnon 
+	\ivlnon 
 		\ar[r, "\shortmid\shortmid"{marking}", "\geq"' below=2pt, "" name=R]
 	&
 	{[0,\infty)}
 	\ar[from=C1, to=C2, Rightarrow, "\fun{uc?}_f"]
-%	\ar[from=C1, to=R, right, phantom, "\color{gray}\footnotesize~\tn{cart}"]
-%	\ar[from=C2, to=R, right, phantom, 
-%		"\footnotesize
-%		\!
-%		\text{cart}"
-%		]
+	\ar[from=C1, to=R, right, phantom, pos=.65,
+		"\color{gray}
+		\footnotesize
+		~
+		\tn{cart}"]
+	\ar[from=C2, to=R, right, phantom, pos=.65,
+		"\color{gray}
+		\footnotesize
+		\!
+		\text{cart}"
+		]
 \end{tikzcd}
 \]
 This 2-arrow labeled ``$\text{uc?}_f$" asks the question:
@@ -577,8 +609,80 @@ class $\Kdag$-stability.
 \chapter{Continuity by co-design (boolean profunctors)}
 \label{}
 
-\chapter{Adjoint endofunctors of $(\rrnon,\geq)$ as simple systems}
+\chapter{Adjoint endofunctors of $(\ivlnon,\geq)$ as simple systems}
 \label{}
+
+Suppose we know $\alpha\colon R\to R'$ is a poset map, but each of $R$ and $R'$ might be the poset carried by any of the following sets:
+\begin{equation}\label{eqn.RR'}
+	R,R'\text{~are any of:~}\qquad
+	[0,\infty]\qqor
+	[0,\infty)\qqor
+	(0,\infty]\qqor
+	(0,\infty),
+\end{equation}
+equipped with the $\geq$ ordering. For the time being we fix $R$ and $R'$ but remain agnostic about which of the posets from \eqref{eqn.RR'} they may be. Then $\alpha$ may or may not have a left adjoint $\alpha\ldag\colon R'\to R$. If one exists then as such it will be unique, because it must be given by the following formula for any $\epsilon\in R'$:
+\begin{equation}\label{eqn.alpha_left}
+  \alpha\ldag(\epsilon):=\sup_{\{\delta\mid \epsilon\geq\alpha(\delta)\}}\delta
+\end{equation}
+and it will satisfy the following inequalities for all $\delta\in R$, $\epsilon\in R'$:
+\begin{equation}\label{eqn.unit_counit}
+  \epsilon\geq\alpha(\alpha\ldag(\epsilon))
+  \qqand
+  \alpha\ldag(\alpha(\delta))\geq\delta.
+\end{equation}
+If the formula \eqref{eqn.alpha_left} fails to converge for some choice of $\epsilon$ or if the laws in \eqref{eqn.unit_counit} do not hold, then $\alpha$ does not have a left adjoint; however, given \cref{eqn.alpha_left,eqn.unit_counit}, then they are adjoints $(\alpha\ldag\dashv\alpha)$ and we may write
+\[
+\adjpos{R'}{\alpha\ldag}{\alpha}{R}{\geq}
+\]
+for $\epsilon\in R'$ and $\delta\in R$.
+
+\begin{lemma}[Monads/comonads as floors/ceilings]
+Suppose $\alpha\ldag\colon R'\to R$ is left adjoint to $\alpha$. For any $\delta\in R$ and $\epsilon\in R'$, define
+\[
+	\clg[\delta]{\alpha}\coloneqq\alpha\ldag(\alpha(\delta))\quad\in R
+	\qqand
+	\flr[\epsilon]{\alpha}\coloneqq\alpha(\alpha\ldag(\epsilon))\quad\in R'
+\]
+ Then for any $r\in R$ and $r'\in R'$ we have:
+% \[
+% 	\epsilon\geq r'\geq\flr[\epsilon]{\alpha}
+%	\implies
+%	\flr[r']{\alpha}
+%	=
+% 	\flr[\epsilon]{\alpha}
+%	.\]
+%	Similarly, for any $\delta\in R$, let $\clg[\delta]{\alpha}\coloneqq\alpha\ldag(\alpha(\delta))\in R$. Then for any $r\in R$ we have the implication:
+% \[
+% 	\clg[\delta]{\alpha}\geq r\geq\delta
+%	\implies
+% 	\clg[\delta]{\alpha}
+%	=
+%	\clg[r']{\alpha}
+%	.\]	
+\[
+  \clg[{\clg[r]{\alpha}}]{\alpha}=\clg[r]{\alpha}.
+  \qqand
+  \flr[{\flr[r']{\alpha}}]{\alpha}=\flr[r']{\alpha}
+\]
+In particular, we have implications
+ \[
+ 	\clg[\delta]{\alpha}\geq r\geq\delta
+	\implies
+ 	\clg[\delta]{\alpha}
+	=
+	\clg[r]{\alpha}	
+	\qqand
+ 	\epsilon\geq r'\geq\flr[\epsilon]{\alpha}
+	\implies
+	\flr[r']{\alpha}
+	=
+ 	\flr[\epsilon]{\alpha}
+	.\]
+\end{lemma}
+\begin{proof}
+**
+\end{proof}
+
 
 \chapter{Classical and $\Kdag$-stability by co-design}
 \label{}
