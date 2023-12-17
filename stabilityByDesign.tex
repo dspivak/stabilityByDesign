@@ -465,28 +465,35 @@ replacement=\&]{}\ar[r,slash, "{#1}"]\&{}\end{tikzcd}}
 \chapter{Introduction}
 \label{chap.intro}
 
-Lyapunov's notion of stability-by-comparison serves as the mathematical foundation of the control-theoretic perspective on dynamical systems. Category theory offers rich theory in which to account for any well-defined sort of comparison.
+Lyapunov's notion of stability-by-comparison serves as the mathematical foundation of the control-theoretic perspective on dynamical systems. Category theory offers rich theory in which to account for any well-defined sort of comparison, so it is a natural fit.
 
-In \cite{censi2015mathematical}, Andrea Censi used category theory to explain a theory of \emph{feasibility}, as exemplified in the practice of collaborative engineering design problems. For example, the feasibility of a robot---consisting of a chassis, a motor, and a battery---was considered in terms of traced monoidal categories. In their introductory book  \cite{fong2019seven} originally titled \emph{Seven Sketches}, Fong and Spivak offered a pedagogical account
-\begin{equation}\label{eqn.andreadavidbrendan}\tag{Andrea}
+In \cite{censi2015mathematical}, Andrea Censi used category theory to explain a theory of \emph{feasibility}, as exemplified in the practice of collaborative engineering design problems. For example, the feasibility of a robot---consisting of a chassis, a motor, and a battery---was considered in terms of traced monoidal categories. In their introductory book  \cite{fong2019seven} originally titled \emph{Seven Sketches}, Fong and Spivak offered a pedagogical account of feasibility theory 
+\begin{equation}\label{eqn.andreadavidbrendan}
 	\andreapic
 \end{equation}
-of feasibility theory in terms of boolean profunctors. 
+in terms of \emph{boolean profunctors}. 
 
-In this paper, we use the mathematics behind co-design---the (Cartesian) monoidal equipment of \emph{boolean-enriched categories}---to recast Lyapunov's approach to stability. This paper will be concise but self-contained for those acquainted with the ``big-3 of category theory'', \emph{categories}, \emph{functors}, and \emph{natural transformations}. 
-
-**
+In this paper, we use the mathematics behind co-design---the (Cartesian) monoidal equipment of \emph{boolean-enriched categories}---to recast Lyapunov's approach to stability. Though concise, the paper will be self-contained for those acquainted with
+\begin{itemize}
+	\item the basic theory of metric spaces: continuity and uniform continuity, and 
+	\item the ``big-3'' of category theory: categories, functors, and natural transformations.
+\end{itemize}
+Though we will not pictures as in \eqref{eqn.andreadavidbrendan}, we will show how boolean profunctor theory also accounts for comparative stability, as we next briefly describe.
 
 \subsection{Natural Stability}
 
-Lyapunov gave what turns out to be a beautiful categorical account of stability, though he did not know category theory. What he did know was that comparing dynamical systems---especially to the simplest ones---would offer a way to account for intuitions about energy in mathematical terms. 
+Lyapunov gave what turns out to be a beautiful categorical account of stability, though he did not know category theory. What he did know was that comparing dynamical systems---especially to the simplest ones---would offer a way to account for intuitions about energy in mathematical terms.
 
 \dnote{(Expert Fill:) background on stability, comparing systems, and energy}
 
 
 \paragraph{Class $\K$ functions in analysis.}
 
+Ones intuitions about the world can be cast in the language of the nonnegative reals, $\rrnneg$, which is a highly structured object. Its additive commutative monoid structure $(\rrneg,0,+)$ induces a poset structure $t_1\leq t_2$, defined by. **
+
 \subsection{The simplest systems, from $\K$ to $\Kdag$}
+
+Adjoints.
 
 \subsection{Lyapunov in terms of boolean profunctors}
 
