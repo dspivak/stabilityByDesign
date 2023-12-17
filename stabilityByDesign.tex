@@ -480,6 +480,10 @@ In this paper, we use the mathematics behind co-design---the (Cartesian) monoida
 \end{itemize}
 Though we will not pictures as in \eqref{eqn.andreadavidbrendan}, we will show how boolean profunctor theory also accounts for comparative stability, as we next briefly describe.
 
+\paragraph{Basic analysis}
+
+Continuity and uniform continuity.
+
 \subsection{Natural Stability}
 
 Lyapunov gave what turns out to be a beautiful categorical account of stability, though he did not know category theory. What he did know was that comparing dynamical systems---especially to the simplest ones---would offer a way to account for intuitions about energy in mathematical terms.
@@ -489,13 +493,41 @@ Lyapunov gave what turns out to be a beautiful categorical account of stability,
 
 \paragraph{Class $\K$ functions in analysis.}
 
-Ones intuitions about the world can be cast in the language of the nonnegative reals, $\rrnneg$, which is a highly structured object. Its additive commutative monoid structure $(\rrneg,0,+)$ induces a poset structure $t_1\leq t_2$, defined by. **
+Ones intuitions about the world can be cast in the language of the nonnegative reals, $\rrnon$, which is a highly structured object. Its additive commutative monoid structure $(\rrnon,0,+)$ induces a poset structure $t_1\leq t_2$, defined by. **
 
 \subsection{The simplest systems, from $\K$ to $\Kdag$}
 
 Adjoints.
 
 \subsection{Lyapunov in terms of boolean profunctors}
+
+% https://q.uiver.app/#q=WzAsNCxbMCwwLCJYIl0sWzAsMSwiUiJdLFsxLDEsIlIiXSxbMSwwLCJZIl0sWzMsMiwiRyIsMix7ImN1cnZlIjoxfV0sWzAsMSwiRiIsMix7ImN1cnZlIjoxfV0sWzEsMiwiIiwyLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiYmFycmVkIn19fV0sWzAsMSwiRiciLDAseyJjdXJ2ZSI6LTF9XSxbMywyLCJHJyIsMCx7ImN1cnZlIjotMX1dXQ==
+\[
+\begin{tikzcd}[row sep=2cm, column sep=2.3cm]
+	X 
+		\ar[d, bend left=20pt, "F'"]
+		\ar[d, bend right=20pt, "F"']
+		\ar[r, bend left=20pt, "\shortmid"{marking}", "~F'\leq_R G'", ""' name=C1]
+		\ar[r, bend right=20pt, "\shortmid"{marking}", "F\leq_R G"' name=C2', "" name=C2]
+	& 
+	Y 
+		\ar[d, bend left=20pt, "G'"]
+		\ar[d, bend right=20pt, "G"'] 
+	\\
+	R 
+		\ar[r, "\shortmid\shortmid"{marking}", "\leq_R"' below=2pt, "" name=R]
+	&
+	R
+	\ar[from=C1, to=C2, Rightarrow, ]
+	\ar[from=C1, to=R, right, phantom, "\color{gray}\footnotesize~\tn{cart}"]
+	\ar[from=C2, to=R, right, phantom, 
+		"\footnotesize
+		\!
+		\text{cart}"
+		]
+\end{tikzcd}
+\]
+
 
 \subsection{Plan of the paper}
 
