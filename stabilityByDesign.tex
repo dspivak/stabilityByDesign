@@ -571,7 +571,7 @@ Rounding up and down: as the monad and comonad given by the adjoint endofunctors
 		\ar[r, "\shortmid\shortmid"{marking}", "\geq"' below=2pt, "" name=R]
 	&
 	{[0,\infty)}
-	\ar[from=C1, to=C2, Rightarrow, "\fun{uc?}_f"]
+	\ar[from=C1, to=C2, Rightarrow, "\fun{ucont?}_f"]
 	\ar[from=C1, to=R, right, phantom, pos=.65,
 		"\color{gray}
 		\footnotesize
@@ -585,7 +585,7 @@ Rounding up and down: as the monad and comonad given by the adjoint endofunctors
 		]
 \end{tikzcd}
 \]
-This 2-arrow labeled ``$\text{uc?}_f$" asks the question:
+This 2-arrow labeled ``$\text{ucont?}_f$" asks the question:
 \[
 \Delta(\epsilon)\geq d_M(m_1,m_2)\xRightarrow{\;\;?\;\;}\epsilon\geq d_N(fm_1,fm_2), \quad 
 	\text{for all }\epsilon\in (0,\infty), (m_1,m_2)\in M\times M
@@ -608,6 +608,134 @@ class $\Kdag$-stability.
 
 \chapter{Continuity by co-design (boolean profunctors)}
 \label{}
+
+Let $(M,d_M)$ and $(N,d_N)$ be metric spaces. A function $f\colon M\to N$ is uniformly continuous iff there exists a function $\Delta\colon(0,\infty)\to(0,\infty)$ such that for all $\epsilon>0$ and all $(m_1,m_2)\in M\times M$, the following implication holds:
+\[
+\Delta(\epsilon)\geq d_M(m_1,m_2)\implies
+\epsilon\geq d_N(f(m_1),f(m_2)).
+\]
+
+Thus, given $\Delta$ one forms the diagram left; it establishes uniform continuity if there exists a 2-morphism between the associated cartesian profunctors, as shown right:
+\[
+\begin{tikzcd}[row sep=1cm, column sep=3.2cm]
+	{(0,\infty)} 
+		\ar[dd, bend left=40pt, hook, ""]
+		\ar[d, "\Delta?"']
+%		\ar[r, bend left=20pt, "\shortmid"{marking}", "{\Delta(\epsilon)\geq d_M(m_1,m_2)}", ""' name=C1]
+%		\ar[r, bend right=20pt, "\shortmid"{marking}", "{\epsilon\geq d_N(fm_1,fm_2)}"' name=C2', "" name=C2]
+%		\ar[from=C1, to=C2, Rightarrow, "\fun{ucont?}_f"]
+	& 
+	M\times M 
+		\ar[dd, bend left=40pt, "d_M"]
+		\ar[d, "f\times f"'] 
+	\\
+	{(0,\infty)}
+		\ar[d, hook]&
+	N\times N
+		\ar[d, "d_N"']\\
+	\ivlnon 
+		\ar[r, "\shortmid\shortmid"{marking}", "\geq"' below=2pt, "" name=R]
+	&
+	{[0,\infty)}
+%	\ar[from=C1, to=R, right, phantom, pos=.65,
+%		"\color{gray}
+%		\footnotesize
+%		~
+%		\tn{cart}"]
+%	\ar[from=C2, to=R, right, phantom, pos=.65,
+%		"\color{gray}
+%		\footnotesize
+%		\!
+%		\text{cart}"
+%		]
+\end{tikzcd}
+\hspace{.6in}
+\begin{tikzcd}[row sep=1cm, column sep=3.2cm]
+	{(0,\infty)} 
+		\ar[dd, bend left=40pt, hook, ""]
+		\ar[d, "\Delta"']
+		\ar[r, bend left=20pt, "\shortmid"{marking}", "{\Delta(\epsilon)\geq d_M(m_1,m_2)}", ""' name=C1]
+		\ar[r, bend right=20pt, "\shortmid"{marking}", "{\epsilon\geq d_N(fm_1,fm_2)}"' name=C2', "" name=C2]
+		\ar[from=C1, to=C2, Rightarrow, "\fun{ucont?}_f"]
+	& 
+	M\times M 
+		\ar[dd, bend left=40pt, "d_M"]
+		\ar[d, "f\times f"'] 
+	\\
+	{(0,\infty)}
+		\ar[d, hook]&
+	N\times N
+		\ar[d, "d_N"']\\
+	\ivlnon 
+		\ar[r, "\shortmid\shortmid"{marking}", "\geq"' below=2pt, "" name=R]
+	&
+	{[0,\infty)}
+	\ar[from=C1, to=R, right, phantom, pos=.65,
+		"\color{gray}
+		\footnotesize
+		~
+		\tn{cart}"]
+	\ar[from=C2, to=R, right, phantom, pos=.65,
+		"\color{gray}
+		\footnotesize
+		\!
+		\text{cart}"
+		]
+\end{tikzcd}
+\]
+
+Similarly, we obtain continuity at a point. A function $f\colon M\to N$ is continuous at some $m_0\in M$ if there exists a function $\Delta\colon (0,\infty)\to(0,\infty)$ such that for all $\epsilon>0$ and all $m\in M$, the following implication holds:
+\[
+\Delta(\epsilon)\geq d_M(m_0,m)\implies
+\epsilon\geq d_N(f(m_0),f(m)).
+\]
+We again obtain this by asking about the existence of a 2-cell between the cartesian morphisms, as shown
+\[
+\begin{tikzcd}[row sep=1cm, column sep=4cm]
+	{(0,\infty)} 
+		\ar[dd, bend left=40pt, hook, ""]
+		\ar[d, "\Delta"']
+		\ar[r, bend left=20pt, "\shortmid"{marking}", "{\Delta(\epsilon)\geq d_M(m_0,m)}", ""' name=C1]
+		\ar[r, bend right=20pt, "\shortmid"{marking}", "{\epsilon\geq d_N(fm_0,fm)}"' name=C2', "" name=C2]
+		\ar[from=C1, to=C2, Rightarrow, "\fun{cont?}_{f,m_0}"]
+	& 
+	M 
+		\ar[dd, bend left=40pt, "{d_M(m_0,\blank)}"]
+		\ar[d, "f"'] 
+	\\
+	{(0,\infty)}
+		\ar[d, hook]&
+	N
+		\ar[d, "{d_M(f(m_0),\blank)}"']\\
+	\ivlnon 
+		\ar[r, "\shortmid\shortmid"{marking}", "\geq"' below=2pt, "" name=R]
+	&
+	{[0,\infty)}
+	\ar[from=C1, to=R, right, phantom, pos=.65,
+		"\color{gray}
+		\footnotesize
+		~
+		\tn{cart}"]
+	\ar[from=C2, to=R, right, phantom, pos=.65,
+		"\color{gray}
+		\footnotesize
+		\!
+		\text{cart}"
+		]
+\end{tikzcd}
+\]
+
+We now use the theory of equipments to show that the composite of uniformly continuous functions is uniformly continuous. The same can be done for continuity in place of uniform continuity.
+
+\begin{proposition}
+The identity on $M$ is uniformly continuous, and if $f\colon M\to N$ and $g\colon N\to O$ are uniformly continuous then so is $g\circ f$.
+\end{proposition}
+\begin{proof}
+The function $f=\id_M$ is uniformly continuous because then one can take $\Delta=\id_{(0,\infty)}$ and the two maps are equal. 
+
+Suppose that $f$ and $g$ are uniformly continuous.**
+\end{proof}
+
 
 \chapter{Adjoint endofunctors of $(\ivlnon,\geq)$ as simple systems}
 \label{}
