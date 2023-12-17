@@ -312,7 +312,7 @@ replacement=\&]{}\ar[r,slash, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\From}[1]{\xleftarrow{#1}}
 \newcommand{\Fromm}[1]{\xleftarrow{\;\;#1\;\;}}
 \newcommand{\surj}{\twoheadrightarrow}
-\newcommand{\inj}{\rightarrowtail}
+\newcommand{\inj}{\hookrightarrow}
 \newcommand{\wavyto}{\rightsquigarrow}
 \newcommand{\lollipop}{\multimap}
 \newcommand{\imp}{\Rightarrow}
@@ -367,7 +367,7 @@ replacement=\&]{}\ar[r,slash, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\coalg}{\tn{-}\Cat{Coalg}}
 
 
-\newcommand{\blank}[1][1pt]{\vspace{#1}\cdot\vspace{#1}}
+\newcommand{\blank}[1][1pt]{\hspace{#1}\cdot\hspace{#1}}
 \newcommand{\rest}[2]{#1\big|_{#2}}
 
 
@@ -558,7 +558,7 @@ Rounding up and down: as the monad and comonad given by the adjoint endofunctors
 \;\;
 \begin{tikzcd}[row sep=1cm, column sep=2.7cm]
 	{(0,\infty)} 
-		\ar[dd, bend left=20pt, ""]
+		\ar[dd, bend left=20pt, hook, ""]
 		\ar[dd, bend right=20pt, "\Delta"']
 		\ar[r, bend left=20pt, "\shortmid"{marking}", "{\Delta(\epsilon)\geq d_M(m_1,m_2)}", ""' name=C1]
 		\ar[r, bend right=20pt, "\shortmid"{marking}", "{\epsilon\geq d_N(fm_1,fm_2)}"' name=C2', "" name=C2]
@@ -586,10 +586,10 @@ Rounding up and down: as the monad and comonad given by the adjoint endofunctors
 \end{tikzcd}
 \]
 This 2-arrow labeled ``$\text{uc?}_f$" asks the question:
-\slogan{
-	$\Delta(\epsilon)\geq d_M(m_1,m_2)\xRightarrow{\;\;?\;\;}\epsilon\geq d_N(fm_1,fm_2)$, \quad 
-	for all $\epsilon\in (0,\infty)$, $(m_1,m_2)\in M\times M$
-}
+\[
+\Delta(\epsilon)\geq d_M(m_1,m_2)\xRightarrow{\;\;?\;\;}\epsilon\geq d_N(fm_1,fm_2), \quad 
+	\text{for all }\epsilon\in (0,\infty), (m_1,m_2)\in M\times M
+\]
 This is well-known to be the definition of uniform continuity.
 
 \subsection{Plan of the paper}
@@ -612,7 +612,7 @@ class $\Kdag$-stability.
 \chapter{Adjoint endofunctors of $(\ivlnon,\geq)$ as simple systems}
 \label{}
 
-Suppose we know $\alpha\colon R\to R'$ is a poset map, but each of $R$ and $R'$ might be the poset carried by any of the following sets:
+Throughout this section we assume that $\alpha\colon R\to R'$ is monotonic, but each of $R$ and $R'$ might be the poset carried by any of the following sets:
 \begin{equation}\label{eqn.RR'}
 	R,R'\text{~are any of:~}\qquad
 	[0,\infty]\qqor
@@ -620,24 +620,61 @@ Suppose we know $\alpha\colon R\to R'$ is a poset map, but each of $R$ and $R'$ 
 	(0,\infty]\qqor
 	(0,\infty),
 \end{equation}
-equipped with the $\geq$ ordering. For the time being we fix $R$ and $R'$ but remain agnostic about which of the posets from \eqref{eqn.RR'} they may be. Then $\alpha$ may or may not have a left adjoint $\alpha\ldag\colon R'\to R$. If one exists then as such it will be unique, because it must be given by the following formula for any $\epsilon\in R'$:
-\begin{equation}\label{eqn.alpha_left}
-  \alpha\ldag(\epsilon):=\sup_{\{\delta\mid \epsilon\geq\alpha(\delta)\}}\delta
-\end{equation}
-and it will satisfy the following inequalities for all $\delta\in R$, $\epsilon\in R'$:
+equipped with the $\geq$ ordering. For the time being we fix $R$ and $R'$ but remain agnostic about which of the posets from \eqref{eqn.RR'} they may be. Then $\alpha$ may or may not have a left adjoint $\alpha\ldag\colon R'\to R$, meaning
 \begin{equation}\label{eqn.unit_counit}
   \epsilon\geq\alpha(\alpha\ldag(\epsilon))
   \qqand
   \alpha\ldag(\alpha(\delta))\geq\delta.
 \end{equation}
-If the formula \eqref{eqn.alpha_left} fails to converge for some choice of $\epsilon$ or if the laws in \eqref{eqn.unit_counit} do not hold, then $\alpha$ does not have a left adjoint; however, given \cref{eqn.alpha_left,eqn.unit_counit}, then they are adjoints $(\alpha\ldag\dashv\alpha)$ and we may write
+If one exists then as such it will be unique. Note that any monotonic bijection $\alpha\colon R\To{\cong}R$ will be a right (also a left) adjoint, and its inverse will be its left (resp.\ right) adjoint.
+
+\begin{lemma}\label{lemma.sup_formula}
+Suppose given $\alpha\colon R'\to R$. If it has a left adjoint $\alpha\ldag$, then $\alpha\ldag$ will satisfy the following formula for any $\epsilon\in R'$:
+\begin{equation}\label{eqn.alpha_left}
+  \alpha\ldag(\epsilon)=\sup_{\{\delta\mid \epsilon\geq\alpha(\delta)\}}\delta.
+\end{equation}
+\end{lemma}
+\begin{proof}
+Suppose given \eqref{eqn.unit_counit}. To show $\alpha\ldag(\epsilon)\geq\sup_{\{\delta\mid \epsilon\geq\alpha(\delta)\}}\delta$, it suffices to show that for all $\delta$, if $\epsilon\geq\alpha(\delta)$ then $\alpha\ldag(\epsilon)\geq\delta$. By \eqref{eqn.unit_counit}, if $\epsilon\geq\alpha(\delta)$ then $\alpha\ldag(\epsilon)\geq\alpha\ldag(\alpha(\delta))\geq\delta$. 
+
+Note that right adjoints preserve all limits that exist, meaning $\alpha$ preserves sups. To show 
+$
+\sup_{\{\delta\mid \epsilon\geq\alpha(\delta)\}}\delta
+\geq
+\alpha\ldag(\epsilon)
+$, we again use \eqref{eqn.unit_counit}:
 \[
-\adjpos{R'}{\alpha\ldag}{\alpha}{R}{\geq}
+\left(\sup_{\{\delta\mid \epsilon\geq\alpha(\delta)\}}\delta \right)\geq
+\left(\sup_{\{\epsilon'\mid \epsilon\geq\alpha(\alpha\ldag(\epsilon'))\}}\alpha\ldag(\epsilon')\right)\geq\alpha\ldag(\epsilon)
 \]
+This completes the proof.
+\end{proof}
+
+Given that \cref{eqn.alpha_left,eqn.unit_counit} hold, then the functors are adjoints $(\alpha\ldag\dashv\alpha)$ and we may write
 for $\epsilon\in R'$ and $\delta\in R$.
 
-\begin{lemma}[Monads/comonads as floors/ceilings]
-Suppose $\alpha\ldag\colon R'\to R$ is left adjoint to $\alpha$. For any $\delta\in R$ and $\epsilon\in R'$, define
+\begin{example}
+Here is a table of some maps that do or do not have left adjoints:
+\[
+\begin{array}{lll||c|c}
+	\text{Domain}&\text{Codomain}&\text{Monotonic $\alpha(\delta)$}&\text{Left adj.\ }\alpha\ldag(\epsilon)?&\text{Reason not}\\\hline
+	\blank,\blank&\blank,\blank&\delta+k \quad(k>0)&\text{N/A}&\delta\geq\alpha\ldag(\delta)+1\geq1\\
+	\blank,\blank&\blank,\blank&\delta*k \quad(k>0)&\frac{\epsilon}{k}&\text{N/A}\\
+	\blank,\infty]&[0,\blank&0&\infty&\text{N/A}\\
+	\blank,\blank&[0,\blank&\flr[\delta]{}&\text{N/A}&\alpha\text{ doesn't prsv. sups}\\
+	\blank,\blank&[0,\blank&\clg[\delta]{}&\flr[\epsilon]{}&\text{N/A}
+\end{array}
+\]
+\end{example}
+
+The composite of $\alpha$ and $\alpha\ldag$ in either order are reminiscent of ``rounding'' up or down.
+
+\begin{lemma}[Monads/comonads as rounding up/down]
+Suppose $\alpha\ldag$ is left adjoint to $\alpha$:
+\[
+\adjpos{R'}{\alpha\ldag}{\alpha}{R}{\geq}.
+\]
+For any $\delta\in R$ and $\epsilon\in R'$, define
 \[
 	\clg[\delta]{\alpha}\coloneqq\alpha\ldag(\alpha(\delta))\quad\in R
 	\qqand
@@ -680,7 +717,55 @@ In particular, we have implications
 	.\]
 \end{lemma}
 \begin{proof}
-**
+For the first claim we calculate:
+\[
+  \alpha\ldag\circ\alpha\geq
+  \alpha\ldag\circ\alpha\circ\alpha\ldag\circ\alpha\geq
+  \alpha\ldag\circ\alpha
+  \qqand
+  \alpha\circ\alpha\ldag\geq
+  \alpha\circ\alpha\ldag\circ\alpha\circ\alpha\ldag\geq
+  \alpha\circ\alpha\ldag
+\]
+For the second, we apply $\clg{\alpha}$ to $\clg[\delta]{\alpha}\geq r\geq\delta$ and use the first claim to conclude $\clg[\delta]{\alpha}\geq \clg[r]{\alpha}\geq\clg[\delta]{\alpha}$. Similarly, we apply $\flr{\alpha}$ to $\epsilon\geq r'\geq\flr[\epsilon]{\alpha}$ and use the first claim to conclude $\flr[\epsilon]{\alpha}\geq \flr[r']{\alpha}\geq\flr[\epsilon]{\alpha}$.
+\end{proof}
+
+\begin{proposition}\label{prop.cts_adjoint_close}
+Let $R\coloneqq [0,\infty]$, and suppose $\alpha\colon R\to R'$ is continuous. Then $\alpha$ has a left adjoint iff $0\in R'$ and $\alpha(0)=0$.
+\end{proposition}
+\begin{proof}
+	If $\alpha$ has a left adjoint $\alpha\ldag$, then $0\geq\alpha(\alpha\ldag(0))\geq\alpha(0)$. For the converse, suppose $0\in R'$ and $\alpha(0)=0$. Then $\alpha$ preserves all sups: it preserves the empty sup, and all other sups follow from monotonicity and continuity. Defining $\alpha\ldag$ as in \eqref{eqn.alpha_left}, one checks that both inequalities in \eqref{eqn.unit_counit} hold.
+\end{proof}
+
+\begin{proposition}\label{prop.cts_v1}
+Let $R\coloneqq [0,\infty)$, and suppose $\alpha\colon R\to R'$ is continuous. Then $\alpha$ has a left adjoint iff $0\in R'$, $\alpha(0)=0$, and $\alpha$ is surjective.
+\end{proposition}
+\begin{proof}
+	The proof of \cref{prop.cts_adjoint_close} goes through until one attempts to define $\alpha\ldag$ as in \eqref{eqn.alpha_left}. When $\alpha$ is surjective then the proof proceeds as before, so surjectivity is sufficient. However, if $\alpha$ is not surjective, i.e.\ if there exists $\epsilon$ such that $\epsilon\geq\alpha(\delta)$ for all $\delta$, then $\alpha\ldag(\epsilon)$ needs to be $\infty$, but it is not in the domain. Thus surjectivity is necessary.
+\end{proof}
+
+\begin{proposition}\label{prop.cts_v2}
+Suppose $0\in R,R'$, and suppose $\alpha\colon R\to R'$ is continuous. If it has a left adjoint $\alpha\ldag$, then it satisfies
+\begin{equation}\label{eqn.adj_restriction}
+	\alpha\ldag(\epsilon)=0\implies
+	\epsilon=0.
+\end{equation}
+In other words, letting $i\colon R-\{0\}\inj R$ be the inclusion, then under the above conditions there exists a dashed arrow making the following diagram commute:
+\begin{equation}\label{eqn.adj_restriction_diagram}
+\begin{tikzcd}
+	R-\{0\}\ar[r, "i"]\ar[d, dashed, "\Delta_\alpha"']&
+	R\ar[d, "\alpha\ldag"]\\
+	R'-\{0\}\ar[r, "i"']&
+	R'
+\end{tikzcd}
+\end{equation}
+%In this case, $\Delta_\alpha$ is itself a left adjoint iff $\alpha\inv(0)=\{0\}$.
+\end{proposition}
+\begin{proof}
+First note that we satisfy either the hypotheses of \cref{prop.cts_v1} or \cref{prop.cts_v2}, so $\alpha(0)=0$. Now suppose $\alpha\ldag(\epsilon)=0$. By \cref{lemma.sup_formula}, we have $\sup_{\{\delta|\epsilon\geq\alpha(\delta)\}}\delta=0$, so $\{\delta\mid\epsilon\geq\alpha(\delta)\}=\{0\}$. Since $\alpha$ is
+continuous, $\epsilon=0$. This proves the first claim, which is equivalent to the existence of the dashed arrow as in \eqref{eqn.adj_restriction}.
+%
+%For the last claim, if $\Delta_\alpha$ has a right adjoint
 \end{proof}
 
 
