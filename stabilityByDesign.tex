@@ -406,8 +406,8 @@ replacement=\&]{}\ar[r,slash, "{#1}"]\&{}\end{tikzcd}}
 }
 
 
-\newcommand{\rrpos}{\rr_{+}}
-\newcommand{\rrnon}{\rr_{\geq 0}}
+\newcommand{\rrpos}{\rr_{>0}}
+\newcommand{\rrnon}{[0,\infty)}
 \newcommand{\K}{\cat{K}}
 \newcommand{\Kdag}[1][0]{\K^{\rotatebox{180}{$\dagger$}}}
 
@@ -503,17 +503,17 @@ Adjoints.
 
 % https://q.uiver.app/#q=WzAsNCxbMCwwLCJYIl0sWzAsMSwiUiJdLFsxLDEsIlIiXSxbMSwwLCJZIl0sWzMsMiwiRyIsMix7ImN1cnZlIjoxfV0sWzAsMSwiRiIsMix7ImN1cnZlIjoxfV0sWzEsMiwiIiwyLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiYmFycmVkIn19fV0sWzAsMSwiRiciLDAseyJjdXJ2ZSI6LTF9XSxbMywyLCJHJyIsMCx7ImN1cnZlIjotMX1dXQ==
 \[
-\begin{tikzcd}[row sep=2cm, column sep=2.3cm]
+\begin{tikzcd}[row sep=1cm, column sep=2.7cm]
 	X 
-		\ar[d, bend left=20pt, "F'"]
-		\ar[d, bend right=20pt, "F"']
+		\ar[dd, bend left=20pt, "F'"]
+		\ar[dd, bend right=20pt, "F"']
 		\ar[r, bend left=20pt, "\shortmid"{marking}", "~F'\leq_R G'", ""' name=C1]
 		\ar[r, bend right=20pt, "\shortmid"{marking}", "F\leq_R G"' name=C2', "" name=C2]
 	& 
 	Y 
-		\ar[d, bend left=20pt, "G'"]
-		\ar[d, bend right=20pt, "G"'] 
-	\\
+		\ar[dd, bend left=20pt, "G'"]
+		\ar[dd, bend right=20pt, "G"'] 
+	\\~\\
 	R 
 		\ar[r, "\shortmid\shortmid"{marking}", "\leq_R"' below=2pt, "" name=R]
 	&
@@ -526,8 +526,39 @@ Adjoints.
 		\text{cart}"
 		]
 \end{tikzcd}
+\qquad\quad
+\parbox{1.3in}{\raggedright\textit{In the case of uniform continuity:}}
+\quad
+\begin{tikzcd}[row sep=1cm, column sep=2.7cm]
+	{(0,\infty)} 
+		\ar[dd, bend left=20pt, ""]
+		\ar[dd, bend right=20pt, "\Delta"']
+		\ar[r, bend left=20pt, "\shortmid"{marking}", "{\Delta(\epsilon)\geq d_M(m_1,m_2)}", ""' name=C1]
+		\ar[r, bend right=20pt, "\shortmid"{marking}", "{\epsilon\geq d_N(fm_1,fm_2)}"' name=C2', "" name=C2]
+	& 
+	M\times M 
+		\ar[dd, bend left=20pt, "d_M"]
+		\ar[dd, bend right=20pt, "d_N\circ(f\times f)"'] 
+	\\~\\
+	\rrnon 
+		\ar[r, "\shortmid\shortmid"{marking}", "\geq"' below=2pt, "" name=R]
+	&
+	{[0,\infty)}
+	\ar[from=C1, to=C2, Rightarrow, "\fun{uc?}_f"]
+%	\ar[from=C1, to=R, right, phantom, "\color{gray}\footnotesize~\tn{cart}"]
+%	\ar[from=C2, to=R, right, phantom, 
+%		"\footnotesize
+%		\!
+%		\text{cart}"
+%		]
+\end{tikzcd}
 \]
-
+This 2-arrow labeled ``$\text{uc?}_f$" asks the question:
+\slogan{
+	$\Delta(\epsilon)\geq d_M(m_1,m_2)\xRightarrow{\;\;?\;\;}\epsilon\geq d_N(fm_1,fm_2)$, \quad 
+	for all $\epsilon\in (0,\infty)$, $(m_1,m_2)\in M\times M$
+}
+This is well-known to be the definition of uniform continuity.
 
 \subsection{Plan of the paper}
 
