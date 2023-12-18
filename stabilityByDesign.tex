@@ -494,7 +494,7 @@ replacement=\&]{}\ar[r,slash, "{#1}"]\&{}\end{tikzcd}}
 
 Lyapunov's notion of stability-by-comparison serves as the mathematical foundation of the control-theoretic perspective on dynamical systems. Category theory offers rich theory in which to account for any well-defined sort of comparison, so it is a natural fit.
 
-In \cite{censi2015mathematical}, Andrea Censi used category theory to explain a theory of \emph{feasibility}, as exemplified in the practice of collaborative engineering design problems. For example, the feasibility of a robot---consisting of a chassis, a motor, and a battery---was considered in terms of traced monoidal categories. In their introductory book  \cite{fong2019seven} originally titled \emph{Seven Sketches}, Fong and Spivak offered a pedagogical account of feasibility theory 
+In \cite{censi2015mathematical}, Andrea Censi used category theory to explain a theory of \emph{feasibility}, as exemplified in the practice of collaborative engineering design problems. For example, the feasibility of a robot---consisting of a chassis, a motor, and a battery---was considered in terms of traced monoidal categories. In their introductory book  \cite{fong2019seven} originally titled \emph{Seven Sketches in Compositionality}, Fong and Spivak offered a pedagogical account of feasibility theory 
 \begin{equation}\label{eqn.andreadavidbrendan}
 	\andreapic
 \end{equation}
@@ -505,11 +505,11 @@ In this paper, we use the mathematics behind co-design---the (Cartesian) monoida
 	\item the basic theory of metric spaces: continuity and uniform continuity, and 
 	\item the ``big-3'' of category theory: categories, functors, and natural transformations.
 \end{itemize}
-Though we will not pictures as in \eqref{eqn.andreadavidbrendan}, we will show how boolean profunctor theory also accounts for comparative stability, as we next briefly describe.
+Though we will not include further pictures as in \eqref{eqn.andreadavidbrendan}, we will show how boolean profunctor theory also accounts for comparative stability, as we next briefly describe.
 
 \paragraph{Basic analysis}
 
-Continuity and uniform continuity.
+Continuity and uniform continuity **
 
 \subsection{Natural Stability}
 
@@ -588,10 +588,10 @@ Rounding up and down: as the monad and comonad given by the adjoint endofunctors
 \]
 This 2-arrow labeled ``$\text{ucont?}_f$" asks the question:
 \[
-\Delta(\epsilon)\geq d_M(m_1,m_2)\xRightarrow{\;\;?\;\;}\epsilon\geq d_N(fm_1,fm_2), \quad 
+\Delta(\epsilon)\geq d_M(m_1,m_2)\xRightarrow{\;\;?\;\;}\epsilon\geq d_N\big(f(m_1),f(m_2)\big), \quad 
 	\text{for all }\epsilon\in (0,\infty), (m_1,m_2)\in M\times M
 \]
-This is well-known to be the definition of uniform continuity.
+This is well-known to be the definition of uniform continuity. A function $\Delta\colon(0,\infty)\to(0,\infty)$ encodes the function which, for every $\epsilon>0$ chooses a $\delta\coloneqq\Delta(\epsilon)>0$. The implication labeled $\xRightarrow{?}$ says that for every two points $m_1,m_2$ whose distance is bounded by $\delta$, applying $f$ results in two points $f(m_1), f(m_2)$ whose distance is bounded by $\epsilon$. We will explain the diagrammatic approach in detail.
 
 \subsection{Plan of the paper}
 
@@ -905,10 +905,12 @@ continuous, $\epsilon=0$. This proves the first claim, which is equivalent to th
 \begin{tikzcd}
 	{(0,\infty)}
 		\ar[d, hook, "i"']\ar[r, "\ttick"{marking, name=A1}, "\geq" below=1pt]
+		\ar[rr, bend left=25pt, "i\geq \|\Phi\|", ""' name=D1]
 	&
-	{(0,\infty)}
+	|[alias=D2]|{(0,\infty)}
 		\ar[d, "\Delta"]
-	&
+		\ar[r, "\tick"{marking}, "i\circ\Delta\geq\|\pi\|"']
+	&[15pt]
 	T\times E
 		\ar[d, "\pi"]\ar[ddr, bend left=20pt, "\Phi"]
 	\\
@@ -919,6 +921,7 @@ continuous, $\epsilon=0$. This proves the first claim, which is equivalent to th
 		\ar[d, hook, "i"]
 	&
 	E
+		\ar[l, phantom, "\text{cart}"]
 		\ar[d, "\|\blank\|"]
 	\\
 	|[alias=C2]|{[0,\infty)}
@@ -938,8 +941,9 @@ continuous, $\epsilon=0$. This proves the first claim, which is equivalent to th
 	&&
 	{[0,\infty)}
 		\ar[from=A1, to=A2, Rightarrow, shorten=25pt]
-		\ar[from=B1, to=B2, Rightarrow, shorten=3pt, "\alpha"]
+		\ar[from=B1.south-|B2, to=B2, Rightarrow, shorten=3pt, "\alpha"]
 		\ar[from=C1, to=C2, Rightarrow, shorten=-2pt]
+		\ar[from=D1, to=D1|-D2, pos=.3, phantom, "\Uparrow?"]
 \end{tikzcd}
 \]
 
