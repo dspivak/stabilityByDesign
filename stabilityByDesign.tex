@@ -436,7 +436,8 @@ replacement=\&]{}\ar[r,slash, "{#1}"]\&{}\end{tikzcd}}
 
 \newcommand{\flr}[2][\blank]{\floor{#1}_{#2}}
 \newcommand{\clg}[2][\blank]{\ceil{#1}_{#2}}
-
+\newcommand{\tick}{\shortmid}
+\newcommand{\ttick}{\shortmid\shortmid}
 
 
 % Aaron extras
@@ -900,8 +901,54 @@ continuous, $\epsilon=0$. This proves the first claim, which is equivalent to th
 \chapter{Classical and $\Kdag$-stability by co-design}
 \label{}
 
+\[
+\begin{tikzcd}
+	{(0,\infty)}
+		\ar[d, hook, "i"']\ar[r, "\ttick"{marking, name=A1}, "\geq" below=1pt]
+	&
+	{(0,\infty)}
+		\ar[d, "\Delta"]
+	&
+	T\times E
+		\ar[d, "\pi"]\ar[ddr, bend left=20pt, "\Phi"]
+	\\
+	{[0,\infty)}
+		\ar[dd, shift right=5pt, bend right=50pt, equal, "" name=C1]\ar[d, "\alpha\ldag"']
+	&
+	{(0,\infty)}
+		\ar[d, hook, "i"]
+	&
+	E
+		\ar[d, "\|\blank\|"]
+	\\
+	|[alias=C2]|{[0,\infty)}
+		\ar[r, "\ttick"{marking, name=A2}, "\geq" below=1pt]
+		\ar[d, "\alpha"']
+	&
+	|[alias=B1]|{[0,\infty)}
+		\ar[r, "\ttick"{marking}, "\geq" below=1pt]
+	&
+	{[0,\infty)}
+		\ar[d, "\alpha"]\ar[r, Rightarrow, yshift=6pt, shorten=1pt]
+	&[-10pt]
+	E
+		\ar[dl, bend left, "\|\blank\|"]
+	\\
+	{[0,\infty)}\ar[rr, "\ttick"{marking, name=B2}, "\geq" below=1pt]
+	&&
+	{[0,\infty)}
+		\ar[from=A1, to=A2, Rightarrow, shorten=25pt]
+		\ar[from=B1, to=B2, Rightarrow, shorten=3pt, "\alpha"]
+		\ar[from=C1, to=C2, Rightarrow, shorten=-2pt]
+\end{tikzcd}
+\]
 
-
+The lefthand 2-cell is by adjunction; the bottom 2-cell is the identity on $\alpha$. Suppose given class-$\Kdag$-stability, which is the right-hand 2-cell. Then for all $\epsilon\in(0,\infty)$ and $(t,e)\in T\times E$, and suppressing the inclusions $i$, we obtain classical stability:
+\[
+  \Delta(\epsilon)\geq \|e\|
+  \quad\implies\quad
+	\epsilon\geq\|\Phi(t,e)\|.
+\]
 
 
 \end{document}
