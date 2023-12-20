@@ -738,35 +738,69 @@ Suppose that $f$ and $g$ are uniformly continuous.**
 \end{proof}
 
 
-\chapter{Adjoint endofunctors of $(\ivlnon,\geq)$ as simple systems}
+\chapter{Adjoint endofunctors of the reals, as simple systems}
 \label{}
 
-Throughout this section we assume that $\alpha\colon R\to R'$ is monotonic, but each of $R$ and $R'$ might be the poset carried by any of the following sets:
-\begin{equation}\label{eqn.RR'}
+Throughout this section we assume that $\alpha\colon R\to R'$ is nondecreasing, but each of $R$ and $R'$ might be the poset carried by any of the following sets:
+\begin{equation}\label{eqn.RR}
 	R,R'\text{~are any of:~}\qquad
 	[0,\infty]\qqor
 	[0,\infty)\qqor
 	(0,\infty]\qqor
 	(0,\infty),
 \end{equation}
-equipped with the $\geq$ ordering. For the time being we fix $R$ and $R'$ but remain agnostic about which of the posets from \eqref{eqn.RR'} they may be. Then $\alpha$ may or may not have a left adjoint $\alpha\ldag\colon R'\to R$, meaning
+equipped with the $\geq$ ordering. For the time being we fix $R$ and $R'$ but remain agnostic about which of the posets from \eqref{eqn.RR'} they may be. Then $\alpha$ may or may not have a left adjoint, meaning a nondecreasing function $\alpha\ldag\colon R'\to R$ such that
 \begin{equation}\label{eqn.unit_counit}
   \epsilon\geq\alpha(\alpha\ldag(\epsilon))
   \qqand
   \alpha\ldag(\alpha(\delta))\geq\delta.
 \end{equation}
-If one exists then as such it will be unique. Note that any monotonic bijection $\alpha\colon R\To{\cong}R$ will be a right (also a left) adjoint, and its inverse will be its left (resp.\ right) adjoint.
+If one exists then as such it will be unique, and we write
+\[
+\adjpos{R'}{\alpha\ldag}{\alpha}{R}{\geq}.
+\]
 
-\begin{lemma}\label{lemma.sup_formula}
-Suppose given $\alpha\colon R'\to R$. If it has a left adjoint $\alpha\ldag$, then $\alpha\ldag$ will satisfy the following formula for any $\epsilon\in R'$:
-\begin{equation}\label{eqn.alpha_left}
-  \alpha\ldag(\epsilon)=\sup_{\{\delta\mid \epsilon\geq\alpha(\delta)\}}\delta.
+\begin{example}
+With $R,R'$ as in \eqref{eqn.RR}, any monotonic bijection $\alpha\colon R\to R'$ is a right (also a left) adjoint. The constant-$0$ function $[0,\infty]\to R'$ given by $\alpha(r)=0$, is a right adjoint; its left adjoint is $\alpha\ldag(r')=\infty$. The ceiling function $[0,\infty)\to[0,\infty)$ is a right adjoint and the floor function is its left adjoint
+\[
+	\alpha(r)=\ceil{r}=\inf_{\{n:\nn\mid n\geq r\}}n
+	\qqand
+	\alpha\ldag(r')=\floor{r}=\sup_{\{n:\nn\mid r'\geq n\}}n
+\]
+\end{example}
+
+\begin{lemma}\label{lemma.radj_sups}
+For every nondecreasing map $f\colon R\to R'$, and subset $S\ss R$, we have
+\begin{equation}\label{eqn.sup_lax}
+	f(\sup_{s\in S}s)
+	\geq
+	\sup_{s\in S}f(s)
 \end{equation}
+If $f$ is a right adjoint, then the converse also holds: $f$ preserves all sups.
 \end{lemma}
 \begin{proof}
-Suppose given \eqref{eqn.unit_counit}. To show $\alpha\ldag(\epsilon)\geq\sup_{\{\delta\mid \epsilon\geq\alpha(\delta)\}}\delta$, it suffices to show that for all $\delta$, if $\epsilon\geq\alpha(\delta)$ then $\alpha\ldag(\epsilon)\geq\delta$. By \eqref{eqn.unit_counit}, if $\epsilon\geq\alpha(\delta)$ then $\alpha\ldag(\epsilon)\geq\alpha\ldag(\alpha(\delta))\geq\delta$. 
+	\Cref{eqn.sup_lax} follows from the fact that $f(\sup_{s\in S}s)\geq\alpha (s_0)$ for each $s_0\in S$. If $f$ is a right adjoint, with left adjoint $f\ldag$, then it follows from \cref{eqn.unit_counit,eqn.sup_lax} that:
+	\[
+	\sup_s f(s)\geq
+	f\circ f\ldag\Big(\sup_s f(s)\Big)\geq
+	f\Big(\sup_s f\ldag\circ f(s)\Big)\geq
+	f\Big(\sup_s s\Big).
+	\qedhere
+	\]
+\end{proof}
 
-Note that right adjoints preserve all limits that exist, meaning $\alpha$ preserves sups. To show 
+
+\begin{lemma}\label{lemma.sup_formula}
+Suppose given a nondecreasing function $\alpha\colon R\to R'$. If $\alpha$ has a left adjoint $\alpha\ldag$, then $\alpha\ldag$ will satisfy the following formula for any $\epsilon\in R'$:
+\begin{equation}\label{eqn.alpha_left}
+  \alpha\ldag(\epsilon)=\sup_{\{\delta\in R\mid \epsilon\geq\alpha(\delta)\}}\delta.
+\end{equation}
+Conversely, if $\alpha$ preserves sups and \eqref{eqn.alpha_left} is defined for all $\epsilon\in R'$, then $\alpha\ldag$ is left adjoint to $\alpha$.
+\end{lemma}
+\begin{proof}
+Suppose given \eqref{eqn.unit_counit}. To show $\alpha\ldag(\epsilon)\geq\sup_{\{\delta\mid \epsilon\geq\alpha(\delta)\}}\delta$, it suffices to show that for all $\delta\in R'$, if $\epsilon\geq\alpha(\delta)$ then $\alpha\ldag(\epsilon)\geq\delta$. By \eqref{eqn.unit_counit}, if $\epsilon\geq\alpha(\delta)$ then $\alpha\ldag(\epsilon)\geq\alpha\ldag(\alpha(\delta))\geq\delta$. 
+
+By \cref{lemma.radj_sups}, $\alpha$ preserves sups. To show 
 $
 \sup_{\{\delta\mid \epsilon\geq\alpha(\delta)\}}\delta
 \geq
@@ -776,88 +810,147 @@ $, we again use \eqref{eqn.unit_counit}:
 \left(\sup_{\{\delta\mid \epsilon\geq\alpha(\delta)\}}\delta \right)\geq
 \left(\sup_{\{\epsilon'\mid \epsilon\geq\alpha(\alpha\ldag(\epsilon'))\}}\alpha\ldag(\epsilon')\right)\geq\alpha\ldag(\epsilon)
 \]
-This completes the proof.
+
+For the converse, suppose that $\alpha$ preserves sups and \eqref{eqn.alpha_left} is defined for all $\epsilon\in R'$. One checks easily that \eqref{eqn.unit_counit} holds for any $\epsilon_0\in R'$ and $\delta_0\in R$:
+\[
+	\epsilon_0
+	\geq
+  \sup_{\{\delta\in R\mid \epsilon_0\geq\alpha(\delta)\}}\alpha(\delta)
+  =\alpha(\alpha\ldag(\epsilon_0))
+  \qqand
+  \alpha\ldag(\alpha(\delta_0))=
+  \sup_{\{\delta\in R\mid \alpha(\delta_0)\geq\alpha(\delta)\}}\delta
+  \geq\delta_0
+\]
+
 \end{proof}
 
-Given that \cref{eqn.alpha_left,eqn.unit_counit} hold, then the functors are adjoints $(\alpha\ldag\dashv\alpha)$ and we may write
-for $\epsilon\in R'$ and $\delta\in R$.
+%\begin{example}
+%Here is a table of some maps that do or do not have left adjoints:
+%\[
+%\begin{array}{lll||c|c}
+%	\text{Domain}&\text{Codomain}&\text{Monotonic $\alpha(\delta)$}&\text{Left adj.\ }\alpha\ldag(\epsilon)?&\text{Reason not}\\\hline
+%	\blank,\blank&\blank,\blank&\delta+k \quad(k>0)&\text{N/A}&\delta\geq\alpha\ldag(\delta)+1\geq1\\
+%	\blank,\blank&\blank,\blank&\delta*k \quad(k>0)&\frac{\epsilon}{k}&\text{N/A}\\
+%	\blank,\infty]&[0,\blank&0&\infty&\text{N/A}\\
+%	\blank,\blank&[0,\blank&\flr[\delta]{}&\text{N/A}&\alpha\text{ doesn't prsv. sups}\\
+%	\blank,\blank&[0,\blank&\clg[\delta]{}&\flr[\epsilon]{}&\text{N/A}
+%\end{array}
+%\]
+%\end{example}
 
-\begin{example}
-Here is a table of some maps that do or do not have left adjoints:
-\[
-\begin{array}{lll||c|c}
-	\text{Domain}&\text{Codomain}&\text{Monotonic $\alpha(\delta)$}&\text{Left adj.\ }\alpha\ldag(\epsilon)?&\text{Reason not}\\\hline
-	\blank,\blank&\blank,\blank&\delta+k \quad(k>0)&\text{N/A}&\delta\geq\alpha\ldag(\delta)+1\geq1\\
-	\blank,\blank&\blank,\blank&\delta*k \quad(k>0)&\frac{\epsilon}{k}&\text{N/A}\\
-	\blank,\infty]&[0,\blank&0&\infty&\text{N/A}\\
-	\blank,\blank&[0,\blank&\flr[\delta]{}&\text{N/A}&\alpha\text{ doesn't prsv. sups}\\
-	\blank,\blank&[0,\blank&\clg[\delta]{}&\flr[\epsilon]{}&\text{N/A}
-\end{array}
-\]
-\end{example}
+\paragraph{Lower semicontinuity}
 
-The composite of $\alpha$ and $\alpha\ldag$ in either order are reminiscent of ``rounding'' up or down.
+\[
+\begin{tikzpicture}
+	\draw[->] (0, 0) -- (4, 0);
+	\draw[->] (0, 0) -- (0, 2);
+	\node[circle, draw, inner sep=1pt, blue, fill] at (2,.8) (cop) {};
+	\draw[blue] (0, 0) to[out=5, in=200] (cop);
+	\node[circle, draw, inner sep=1pt, blue] at (2,1) (ccl) {};
+	\draw[blue, ->] (ccl) to[out=65, in=220] (3.8, 1.7);	
+\end{tikzpicture}
+\]
 
-\begin{lemma}[Monads/comonads as rounding up/down]
-Suppose $\alpha\ldag$ is left adjoint to $\alpha$:
-\[
-\adjpos{R'}{\alpha\ldag}{\alpha}{R}{\geq}.
-\]
-For any $\delta\in R$ and $\epsilon\in R'$, define
-\[
-	\clg[\delta]{\alpha}\coloneqq\alpha\ldag(\alpha(\delta))\quad\in R
-	\qqand
-	\flr[\epsilon]{\alpha}\coloneqq\alpha(\alpha\ldag(\epsilon))\quad\in R'
-\]
- Then for any $r\in R$ and $r'\in R'$ we have:
+\begin{lemma}\label{lemma.sups_lower_semi}
+If $\alpha\colon R\to R'$ is nondecreasing and preserves sups then it is lower-semicontinuous. 
+
+Conversely, if $\alpha$ is lower semicontinuous and either $0\not\in R$ or $0\in R$ and $\alpha(0)=0$, then it preserves sups.
+\end{lemma}
+\begin{proof}
+Recall that $\alpha$ is lower semicontinuous if for each $r'\in R'$, the set $S_{r'}\coloneqq\{r:R\mid r'\geq\alpha(r)\}$ is closed. Since $\alpha$ is nondecreasing, $S_{r'}$ is an interval and the question is whether it contains its upper endpoint. If $\alpha$ preserves sups, then $S_{r'}$ contains its upper endpoint, i.e.\ $\big(\sup_{r\in S_{r'}}r\big)\in S_{r'}$, for each $r'\in R'$. 
+
+Conversely, suppose $A_{\leq r'}$ contains its upper endpoint for each $r'\in R'$. Let $S\ss R$ be a subset; we consider it case by case. If $S$ is empty, and $0\not\in R$ then this sup-preservation condition is vacuous; if $0\in R$ then $\sup_{s\in S}s=0=\sup_{s\in S}\alpha(s)$, so this sup is preserved. If $S$ is nonempty and finite, then the sup is the max and its preservation reduces to the fact that $\alpha$ is nondecreasing. 
+
+Finally, suppose $S$ is infinite and let $r_S\coloneqq\sup_{s\in S}s$ and $r'\coloneqq\sup_{s\in S}\alpha(s)$. We clearly have $S\ss S_{r'}$ and $\big(\sup_{r\in S_{r'}}r\big)\geq r_S$. Then $\alpha$ preserves this sup (i.e.\ $r'=\alpha(r_S)$) because: $\alpha(r_S)\geq r'$ holds by \eqref{eqn.sup_lax}, and $r'=\alpha\big(\sup_{r\in S_{r'}}r\big)\geq\alpha(r_S)$ holds by lower semicontinuity.
+\end{proof}
+
+\begin{theorem}
+Suppose $R,R'$ are as above and that $\alpha\colon R\to R'$ is nondecreasing. Define the following named properties:
+\begin{description}[leftmargin=\parindent,labelindent=\parindent]
+	\item[LS:] $\alpha$ is lower semicontinuous.
+	\item[UA:] $\alpha$ is unbounded above, i.e.\ $\infty=\lim_{\delta\to\infty}\alpha(\delta)$.
+	\item[UB:] $\alpha$ is unbounded below, i.e.\ $0=\lim_{\delta\to0}\alpha(\delta)$.
+	\item[PZ:] $\alpha$ preserves zero, i.e.\ $0=\alpha(0)$. [If $0\in R$ and $0\not\in R'$ then this cannot hold.]
+\end{description}
+We can characterize right adjoints as follows:
+\begin{itemize}
+	\item If $R=[0,\infty]$, then $\alpha$ is a right adjoint iff LS, PZ.
+	\item If $R=[0,\infty)$, then $\alpha$ is a right adjoint iff LS, PZ, UA.
+	\item If $R=(0,\infty]$, and $0\in R'$ then $\alpha$ is a right adjoint iff LS, UB.
+	\item If $R=(0,\infty]$, and $0\not\in R'$ then $\alpha$ is a right adjoint iff LS, UB.
+	\item If $R=(0,\infty)$, and $0\in R'$ then $\alpha$ is a right adjoint iff LS, UA, UB.
+	\item If $R=(0,\infty)$, and $0\not\in R'$ then $\alpha$ is a right adjoint iff LS, UA, UB.
+\end{itemize}
+\end{theorem}
+\begin{proof}
+We first show the $\Rightarrow$ direction. By \cref{lemma.radj_sups,lemma.sups_lower_semi}, if $\alpha$ is a right adjoint, then it preserves sups and is lower semicontinuous (LS holds). If $0\in R$ then it is the empty sup, so $\alpha(0)=0$ (PZ holds). If $\infty\not\in R$ then for all $\epsilon\in R'$ there exists $\delta\in R$ with $\alpha(\delta)>\epsilon$ by \eqref{eqn.alpha_left}, so $\alpha$ is unbounded above (UA holds). If $0\not\in R$ and $0\in R'$ then by \eqref{eqn.alpha_left} there exists $\delta\in R$ with $0\geq\alpha(\delta)$, i.e.\ $\alpha(\delta)=0$; since $\alpha$ is nondecreasing, we have $0=\lim_{\delta\to 0}\alpha(\delta)$ (UB holds). If $0\not\in R$ and $0\not\in R'$ then by \eqref{eqn.alpha_left} for all $\epsilon>0$ there exists $\delta>0$ with $\epsilon\geq\alpha(\delta)$ (UB holds).
+
+By \cref{lemma.sups_lower_semi}, in each case the named properties are enough to show that $\alpha$ preserves sups. They are also chosen to be enough that \eqref{eqn.alpha_left} is well-defined for all $\epsilon\in R'$. Hence, by \cref{lemma.sup_formula}, in each case the named properties imply that $\alpha$ is a right adjoint.
+\end{proof}
+
+%The composite of $\alpha$ and $\alpha\ldag$ in either order are reminiscent of ``rounding'' up or down.
+%
+%\begin{lemma}[Monads/comonads as rounding up/down]
+%Suppose $\alpha\ldag$ is left adjoint to $\alpha$:
+%\[
+%\adjpos{R'}{\alpha\ldag}{\alpha}{R}{\geq}.
+%\]
+%For any $\delta\in R$ and $\epsilon\in R'$, define
+%\[
+%	\clg[\delta]{\alpha}\coloneqq\alpha\ldag(\alpha(\delta))\quad\in R
+%	\qqand
+%	\flr[\epsilon]{\alpha}\coloneqq\alpha(\alpha\ldag(\epsilon))\quad\in R'
+%\]
+% Then for any $r\in R$ and $r'\in R'$ we have:
+%% \[
+%% 	\epsilon\geq r'\geq\flr[\epsilon]{\alpha}
+%%	\implies
+%%	\flr[r']{\alpha}
+%%	=
+%% 	\flr[\epsilon]{\alpha}
+%%	.\]
+%%	Similarly, for any $\delta\in R$, let $\clg[\delta]{\alpha}\coloneqq\alpha\ldag(\alpha(\delta))\in R$. Then for any $r\in R$ we have the implication:
+%% \[
+%% 	\clg[\delta]{\alpha}\geq r\geq\delta
+%%	\implies
+%% 	\clg[\delta]{\alpha}
+%%	=
+%%	\clg[r']{\alpha}
+%%	.\]	
+%\[
+%  \clg[{\clg[r]{\alpha}}]{\alpha}=\clg[r]{\alpha}.
+%  \qqand
+%  \flr[{\flr[r']{\alpha}}]{\alpha}=\flr[r']{\alpha}
+%\]
+%In particular, we have implications
 % \[
+% 	\clg[\delta]{\alpha}\geq r\geq\delta
+%	\implies
+% 	\clg[\delta]{\alpha}
+%	=
+%	\clg[r]{\alpha}	
+%	\qqand
 % 	\epsilon\geq r'\geq\flr[\epsilon]{\alpha}
 %	\implies
 %	\flr[r']{\alpha}
 %	=
 % 	\flr[\epsilon]{\alpha}
 %	.\]
-%	Similarly, for any $\delta\in R$, let $\clg[\delta]{\alpha}\coloneqq\alpha\ldag(\alpha(\delta))\in R$. Then for any $r\in R$ we have the implication:
-% \[
-% 	\clg[\delta]{\alpha}\geq r\geq\delta
-%	\implies
-% 	\clg[\delta]{\alpha}
-%	=
-%	\clg[r']{\alpha}
-%	.\]	
-\[
-  \clg[{\clg[r]{\alpha}}]{\alpha}=\clg[r]{\alpha}.
-  \qqand
-  \flr[{\flr[r']{\alpha}}]{\alpha}=\flr[r']{\alpha}
-\]
-In particular, we have implications
- \[
- 	\clg[\delta]{\alpha}\geq r\geq\delta
-	\implies
- 	\clg[\delta]{\alpha}
-	=
-	\clg[r]{\alpha}	
-	\qqand
- 	\epsilon\geq r'\geq\flr[\epsilon]{\alpha}
-	\implies
-	\flr[r']{\alpha}
-	=
- 	\flr[\epsilon]{\alpha}
-	.\]
-\end{lemma}
-\begin{proof}
-For the first claim we calculate:
-\[
-  \alpha\ldag\circ\alpha\geq
-  \alpha\ldag\circ\alpha\circ\alpha\ldag\circ\alpha\geq
-  \alpha\ldag\circ\alpha
-  \qqand
-  \alpha\circ\alpha\ldag\geq
-  \alpha\circ\alpha\ldag\circ\alpha\circ\alpha\ldag\geq
-  \alpha\circ\alpha\ldag
-\]
-For the second, we apply $\clg{\alpha}$ to $\clg[\delta]{\alpha}\geq r\geq\delta$ and use the first claim to conclude $\clg[\delta]{\alpha}\geq \clg[r]{\alpha}\geq\clg[\delta]{\alpha}$. Similarly, we apply $\flr{\alpha}$ to $\epsilon\geq r'\geq\flr[\epsilon]{\alpha}$ and use the first claim to conclude $\flr[\epsilon]{\alpha}\geq \flr[r']{\alpha}\geq\flr[\epsilon]{\alpha}$.
-\end{proof}
+%\end{lemma}
+%\begin{proof}
+%For the first claim we calculate:
+%\[
+%  \alpha\ldag\circ\alpha\geq
+%  \alpha\ldag\circ\alpha\circ\alpha\ldag\circ\alpha\geq
+%  \alpha\ldag\circ\alpha
+%  \qqand
+%  \alpha\circ\alpha\ldag\geq
+%  \alpha\circ\alpha\ldag\circ\alpha\circ\alpha\ldag\geq
+%  \alpha\circ\alpha\ldag
+%\]
+%For the second, we apply $\clg{\alpha}$ to $\clg[\delta]{\alpha}\geq r\geq\delta$ and use the first claim to conclude $\clg[\delta]{\alpha}\geq \clg[r]{\alpha}\geq\clg[\delta]{\alpha}$. Similarly, we apply $\flr{\alpha}$ to $\epsilon\geq r'\geq\flr[\epsilon]{\alpha}$ and use the first claim to conclude $\flr[\epsilon]{\alpha}\geq \flr[r']{\alpha}\geq\flr[\epsilon]{\alpha}$.
+%\end{proof}
 
 \begin{proposition}\label{prop.cts_adjoint_close}
 Let $R\coloneqq [0,\infty]$, and suppose $\alpha\colon R\to R'$ is continuous. Then $\alpha$ has a left adjoint iff $0\in R'$ and $\alpha(0)=0$.
