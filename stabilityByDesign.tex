@@ -282,7 +282,6 @@ replacement=\&]{}\ar[r,slash, "{#1}"]\&{}\end{tikzcd}}
 
 \newcommand{\tw}{\Cat{Tw}}
 
-\newcommand{\const}[1]{\texttt{#1}}%a constant, or named element of a set
 \newcommand{\Set}[1]{\mathsf{#1}}%a named set
 \newcommand{\ord}[1]{\mathsf{#1}}%an ordinal
 \newcommand{\cat}[1]{\mathcal{#1}}%a generic category
@@ -316,7 +315,6 @@ replacement=\&]{}\ar[r,slash, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\wavyto}{\rightsquigarrow}
 \newcommand{\lollipop}{\multimap}
 \newcommand{\imp}{\Rightarrow}
-\renewcommand{\iff}{\Leftrightarrow}
 \newcommand{\down}{\mathbin{\downarrow}}
 \newcommand{\fromto}{\leftrightarrows}
 \newcommand{\tickar}{\xtickar{}}
@@ -365,6 +363,7 @@ replacement=\&]{}\ar[r,slash, "{#1}"]\&{}\end{tikzcd}}
 
 \newcommand{\set}{\tn{-}\Cat{Set}}
 \newcommand{\coalg}{\tn{-}\Cat{Coalg}}
+\newcommand{\const}{\texttt{const}}
 
 
 \newcommand{\blank}[1][1pt]{\hspace{#1}\cdot\hspace{#1}}
@@ -374,10 +373,15 @@ replacement=\&]{}\ar[r,slash, "{#1}"]\&{}\end{tikzcd}}
 
 \newcommand{\slogan}[1]{\begin{center}\textit{#1}\end{center}}
 
-\newcommand{\qand}{\quad\text{and}\quad}
-\newcommand{\qqand}{\qquad\text{and}\qquad}
-\newcommand{\qor}{\quad\text{or}\quad}
-\newcommand{\qqor}{\qquad\text{or}\qquad}
+\newcommand{\hh}[2][]{#1 \tn{\textit{#2}} #1}
+\newcommand{\qqand}{\hh[\qquad]{and}}
+\newcommand{\qand}{\hh[\quad]{and}}
+\renewcommand{\iff}[1][\;\;]{#1\Leftrightarrow#1}
+\newcommand{\ifff}[1][\;\;]{#1\xLeftrightarrow{\quad}#1}
+\newcommand{\hi}[4][]{#1 #2 \tn{\textit{#4}} #3}
+\newcommand{\where}[1][,]{\hi[#1]{\qquad}{\quad}{where}}
+
+
 \newcommand{\dnote}[1]{{\color{blue}David says:}~#1\quad{\color{blue}$\lozenge$}}
 
 
@@ -438,6 +442,11 @@ replacement=\&]{}\ar[r,slash, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\clg}[2][\blank]{\ceil{#1}_{#2}}
 \newcommand{\tick}{\shortmid}
 \newcommand{\ttick}{\shortmid\shortmid}
+\newcommand{\dotminus}{\mathbin{\dot{-}}}
+\renewcommand{\d}[1]{\;d #1}
+\newcommand{\varint}{\textstyle\int}
+\newcommand{\intzero}[1][\blank]{\varint_0^{#1}}
+\newcommand{\xid}[1][\blank]{(#1)}
 
 
 % Aaron extras
@@ -738,15 +747,125 @@ Suppose that $f$ and $g$ are uniformly continuous.**
 \end{proof}
 
 
-\chapter{Adjoint endofunctors of the reals, as simple systems}
+\chapter{Properties of nonnegative reals}
 \label{}
+
+\section{Algebraic structure}
+
+The poset $(\rrnon,\geq)$ or $([0,\infty),\geq)$ of nonnegative reals has a great deal of structure. They are \emph{semirings}---also called \emph{rigs} (rings without \emph{n}egatives)---meaning that we have operations $(\rrnon,0,+,1,*)$ with the usual properties. We also have $N$-ary operations
+\[
+	\sup_{n\in N}\colon\rrnon^N\to\rrnon
+	\qqand
+	\inf_{n\in N}\colon\rrnon^N\to\rrnon	
+\]
+which can be denoted by $\max$ and $\min$ when the arity $N$ is finite. For example,
+\[
+\max(x,y)\coloneqq
+\begin{cases}
+	x&\tn{ if }x\geq y\\
+	y&\tn{ if }y\geq x
+\end{cases}
+\qqand
+\min(x,y)\coloneqq
+\begin{cases}
+	x&\tn{ if }y\geq x\\
+	y&\tn{ if }x\geq y
+\end{cases}
+\]
+All of these structures and coherence properties also exist for the extensions $[0,\infty]$ and $(0, \infty]$, and---with the exception of $0$ and its properties---the extension $(0,\infty)=\rrpos$ in place of $\rrnon$.
+
+For any $y\in[0,\infty)$, shifting by $y$ has a right adjoint, defined as follows:
+\[
+x+y\geq z\ifff x\geq z\dotminus y
+\where
+z\dotminus y=\max(z-y,0)
+\]
+For any $y\in(0,\infty]$, scaling by $y$ also has a right adjoint, denoted and defined as follows:
+\[
+x*y\geq z\ifff x\geq \frac{z}{y}
+\]
+For $y\in(0,\infty)$ these become equalities, $x*y = z\iff x = \frac{z}{y}$.
+
+\paragraph{Endofunctors of $\rrpos$.}
+
+The poset of order-preserving maps $\cat{J}\coloneqq\{f\colon\rrnon\to\rrnon\}$, ordered pointwise
+\[
+f\geq g\ifff[\quad] f(r)\geq g(r),\quad \forall r\in\rrnon,
+\]
+is even richer. It has almost all of the structure that $\rrnon$ does: $(\cat{J},\leq,0,+,1,*,\sup,\inf)$. In particular the injection
+\[
+  \const\colon\rrnon\to\cat{J}\where\const(r)(s)=r
+\]
+preserves all of that structure. We sometimes denote $\const(r)$ simply by $r$, e.g.\ this explains the notaiton $0$ and $1$ above.
+
+The category $\cat{J}$ has a great deal of additional structure as well. First, it has a monoidal structure
+\[
+	\xid\in\cat{J}
+	\qqand
+	\circ:\cat{J}\times\cat{J}\to\cat{J}
+\]
+where we use $\xid$ for the identity functor $\xid[r]=r$ on $\rrnon$. For example, we have
+\[\xid[f]=f=f\xid.\]
+The composition operation respects the order on $\cat{J}$: if $f\geq f'$ and $g\geq g'$, then $f\circ g\geq f'\circ g'$. 
+
+%The set $\cat{J}'$ of subidentical elements
+%\[
+%\cat{J}'\coloneqq\{f\in\cat{J}\mid f\leq\id\}
+%\]
+%form a subcategory with other structures $(\cat{J}',0,*)$.
+
+For any $y\in[0,\infty)$, we have a map $(\dotminus y)\colon\cat{J}\to\cat{J}$ and for any $y\in(0,\infty]$, we have a map $\frac{\blank}{y}\colon\cat{J}\to\cat{J}$; these are given by
+\[
+	(f\dotminus y)(x)\coloneqq f(x)\dotminus y
+	\qqand
+	\textstyle\frac{f}{y}(x)\displaystyle\coloneqq \frac{f(x)}{y}.
+\]
+
+There is also a functor $\intzero\colon\cat{J}\to\cat{J}$ given by
+\[
+f\mapsto t\mapsto\int_0^t f(\tau) \d \tau.
+\]
+In particular, $\intzero f$ is an order preserving function $\rrnon\to\rrnon$ for each $f\in\cat{J}$, and $\intzero$ preserves the order between functions themselves:
+\[
+t_1\leq 
+t_2
+\implies 
+\int_0^{t_1}f(\tau)\d\tau\leq
+\int_0^{t_2}f(\tau)\d\tau
+\qqand
+f_1\leq 
+f_2
+\implies
+\intzero f_1\leq
+\intzero f_2.
+\]
+It is linear, i.e.\ strong monoidal with respect to $(0,+)$
+\[
+\intzero 0=0
+\qqand
+\intzero f+\intzero g=\intzero (f+g)
+\]
+Composing with $\const$ we obtain a functor $\intzero\colon(\rrnon,1,*)\to(\cat{J},\xid,\circ)$, called  \emph{integration from $0$} or simply \emph{integration} which is strong monoidal:
+\[
+\intzero 1=\xid
+\qqand
+(\intzero r)\circ(\intzero s)=\intzero(r*s)
+\]
+
+\begin{remark}
+The rig $\nn[\xid]$ of polynomials in one variable is isomorphic to the finite sums of repeated integrals of $1$. That is, writing $\xid\coloneqq\intzero 1$, the function $\xid^2+2\xid+1$ is a perfect square in $(\cat{J},1,*)$. In this context, it is customary to denote $\xid$ by $x$ or $y$, but we choose not to for typographical clarity.
+\end{remark}
+
+Integration also preserves $\inf$ and $\sup$. It preserves $\dotminus y$ for any $y\in[0,\infty)$ and $\frac{\blank}{y}$ for any $y\in(0,\infty]$.
+
+\section{Adjoint endofunctors of the reals}
 
 Throughout this section we assume that $\alpha\colon R\to R'$ is nondecreasing, but each of $R$ and $R'$ might be the poset carried by any of the following sets:
 \begin{equation}\label{eqn.RR}
 	R,R'\text{~are any of:~}\qquad
-	[0,\infty]\qqor
-	[0,\infty)\qqor
-	(0,\infty]\qqor
+	[0,\infty]\hh[\qquad]{or}
+	[0,\infty)\hh[\qquad]{or}
+	(0,\infty]\hh[\qquad]{or}
 	(0,\infty),
 \end{equation}
 equipped with the $\geq$ ordering. For the time being we fix $R$ and $R'$ but remain agnostic about which of the posets from \eqref{eqn.RR'} they may be. Then $\alpha$ may or may not have a left adjoint, meaning a nondecreasing function $\alpha\ldag\colon R'\to R$ such that
@@ -759,6 +878,7 @@ If one exists then as such it will be unique, and we write
 \[
 \adjpos{R'}{\alpha\ldag}{\alpha}{R}{\geq}.
 \]
+
 
 \begin{example}
 With $R,R'$ as in \eqref{eqn.RR}, any monotonic bijection $\alpha\colon R\to R'$ is a right (also a left) adjoint. The constant-$0$ function $[0,\infty]\to R'$ given by $\alpha(r)=0$, is a right adjoint; its left adjoint is $\alpha\ldag(r')=\infty$. The ceiling function $[0,\infty)\to[0,\infty)$ is a right adjoint and the floor function is its left adjoint
