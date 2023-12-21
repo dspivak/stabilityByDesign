@@ -363,7 +363,7 @@ replacement=\&]{}\ar[r,slash, "{#1}"]\&{}\end{tikzcd}}
 
 \newcommand{\set}{\tn{-}\Cat{Set}}
 \newcommand{\coalg}{\tn{-}\Cat{Coalg}}
-\newcommand{\const}{\texttt{const}}
+\newcommand{\const}[1][\blank]{#1 !}
 
 
 \newcommand{\blank}[1][1pt]{\hspace{#1}\cdot\hspace{#1}}
@@ -617,6 +617,81 @@ class $\Kdag$-stability.
 \label{chap.stability_and_profunctors}
 
 
+\section{Basic analysis}
+
+
+
+\section{Basic stability theory}
+
+\section{Basic profunctor theory}
+
+
+From the perspective of co-design, the $\geq$-ordering tells us to think of a nonnegative real number $r\in[0,\infty]$ as something like a \emph{deviation}.
+
+
+\begin{definition}
+A \emph{Lawvere metric space} consists of a pair $(X,d)$, where $X$ is a set, $d\colon X\times X\to[0,\infty]$ is a function satisfying the following inequalities
+\[
+\begin{tikzpicture}[baseline=(P1.-10)]
+	\node (P1) {
+  \begin{tikzpicture}[oriented WD, bb small, bb port length=0, baseline=(zero)]
+  	\node[circle, inner sep=1pt, draw] 				(zero) at (0,0) {};
+  	\node[circle, inner sep=1pt, draw, fill] 	(term) at (1,0) {};
+  	\draw (zero) -- +(-1,0);
+  	\draw (term) -- +(1,0);
+  \end{tikzpicture}
+  };
+  \node[right=of P1] (P2){
+   \begin{tikzpicture}[oriented WD, bb small, bb port length=0, baseline=(d)]
+  	\node[bb={1}{2}] (d) {$d$};
+  	\draw (d_in1) --+(-1,0);
+		\node[circle, inner sep=1pt, draw, fill] at ($(d.east)+(.5, 0)$) (dot) {};
+		\draw (d_out1) to (dot);
+		\draw (d_out2) to (dot);
+		\draw (dot) -- +(1,0);
+  \end{tikzpicture}
+  };
+  \node at ($(P1.east)!.5!(P2.west)$) {$\geq$};
+\end{tikzpicture}
+  \qqand
+\begin{tikzpicture}[baseline=(P1.-10)]
+	\node (P1) {
+  \begin{tikzpicture}[oriented WD, bb small, bb port length=0, baseline=(zero)]
+  	\node[circle, inner sep=1pt, draw] (sum) at (0,0) {};
+		\node[circle, inner sep=1pt, draw, fill, right=3 of sum] (dot) {};
+		\coordinate (helper1) at ($(sum)!.5!(dot)$);
+		\coordinate (helper2) at ($(dot)+(1,0)$);
+		\node[bb={1}{2}, above=of helper1] (d1) {$d$};
+		\node[bb={1}{2}, below=of helper1] (d2) {$d$};
+		\draw (sum) 		-- +(-1,0);
+		\draw (sum) 		to (d1_in1);
+		\draw (sum) 		to (d2_in1);
+		\draw (d1_out1) -- (d1_out1-|helper2);
+		\draw (d1_out2) to (dot);
+		\draw (d2_out1) to (dot);
+		\draw (dot) 		-- (dot-|helper2);
+		\draw (d2_out2) -- (d2_out2-|helper2);
+  \end{tikzpicture}
+  };
+  \node[right=of P1] (P2){
+   \begin{tikzpicture}[oriented WD, bb small, bb port length=0, baseline=(d)]
+  	\node[bb={1}{2}] (d) {$d$};
+		\node[circle, inner sep=1pt, draw, fill, right=1 of d] (dot) {};
+		\coordinate (helper1) at ($(d_out1)+(2, 1)$);
+		\coordinate (helper2) at ($(d_out2)+(2, -1)$);
+  	\draw (d_in1) --+(-1,0);
+		\draw (d_out1) to (helper1);
+		\draw (d_out2) to (helper2);
+		\draw (dot) -- (dot-|helper1);
+  \end{tikzpicture}
+  };
+  \node at ($(P1.east)!.5!(P2.west)$) {$\geq$};
+\end{tikzpicture}  
+\]
+which express $0\geq d(x,x)$ and $d(x,y)+d(y,z)\geq d(x,z)$.
+\end{definition}
+
+
 \chapter{Continuity by co-design (boolean profunctors)}
 \label{}
 
@@ -795,9 +870,11 @@ f\geq g\ifff[\quad] f(r)\geq g(r),\quad \forall r\in\rrnon,
 \]
 is even richer. It has almost all of the structure that $\rrnon$ does: $(\cat{J},\leq,0,+,1,*,\sup,\inf)$. In particular the injection
 \[
-  \const\colon\rrnon\to\cat{J}\where\const(r)(s)=r
+  \const\colon\rrnon\to\cat{J}
+  \hi[,]{\qquad}{\quad}{given by}
+  \const[r](s)=r
 \]
-preserves all of that structure. We sometimes denote $\const(r)$ simply by $r$, e.g.\ this explains the notaiton $0$ and $1$ above.
+preserves all of that structure. We sometimes denote $\const[r]$ simply by $r$, e.g.\ this explains the notation $0$ and $1$ as elements of $\cat{J}$ above.
 
 The category $\cat{J}$ has a great deal of additional structure as well. First, it has a monoidal structure
 \[
@@ -1025,11 +1102,11 @@ Finally, suppose $S$ is infinite and let $r_S\coloneqq\sup_{s\in S}s$ and $r'\co
 Suppose $R,R'$ are as above and that $\alpha\colon R\to R'$ is nondecreasing. Define the following named properties:
 \begin{description}[leftmargin=\parindent,labelindent=\parindent]
 	\item[LS:] $\alpha$ is lower semicontinuous.
+	\item[PZ:] $\alpha$ preserves zero, i.e.\ $0=\alpha(0)$.
 	\item[UA:] $\alpha$ is unbounded above, i.e.\ $\infty=\lim_{\delta\to\infty}\alpha(\delta)$.
 	\item[UB:] $\alpha$ is unbounded below, i.e.\ $0=\lim_{\delta\to0}\alpha(\delta)$.
-	\item[PZ:] $\alpha$ preserves zero, i.e.\ $0=\alpha(0)$. [If $0\in R$ and $0\not\in R'$ then this cannot hold.]
 \end{description}
-We can characterize right adjoints as follows:
+where implicitly, if $0\in R$ and $0\not\in R'$ then (PZ) cannot hold. We can characterize right adjoints as follows:
 \begin{itemize}
 	\item If $R=[0,\infty]$, then $\alpha$ is a right adjoint iff LS, PZ.
 	\item If $R=[0,\infty)$, then $\alpha$ is a right adjoint iff LS, PZ, UA.
@@ -1206,68 +1283,6 @@ The lefthand 2-cell is by adjunction; the bottom 2-cell is the identity on $\alp
 \chapter{Miscellaneous and Future work}
 
 Kan extensions bounding positive definite functions.
-
-\begin{definition}
-A \emph{Lawvere metric space} consists of a pair $(X,d)$, where $X$ is a set, $d\colon X\times X\to[0,\infty]$ is a function satisfying the following inequalities
-\[
-\begin{tikzpicture}[baseline=(P1.-10)]
-	\node (P1) {
-  \begin{tikzpicture}[oriented WD, bb small, bb port length=0, baseline=(zero)]
-  	\node[circle, inner sep=1pt, draw] 				(zero) at (0,0) {};
-  	\node[circle, inner sep=1pt, draw, fill] 	(term) at (1,0) {};
-  	\draw (zero) -- +(-1,0);
-  	\draw (term) -- +(1,0);
-  \end{tikzpicture}
-  };
-  \node[right=of P1] (P2){
-   \begin{tikzpicture}[oriented WD, bb small, bb port length=0, baseline=(d)]
-  	\node[bb={1}{2}] (d) {$d$};
-  	\draw (d_in1) --+(-1,0);
-		\node[circle, inner sep=1pt, draw, fill] at ($(d.east)+(.5, 0)$) (dot) {};
-		\draw (d_out1) to (dot);
-		\draw (d_out2) to (dot);
-		\draw (dot) -- +(1,0);
-  \end{tikzpicture}
-  };
-  \node at ($(P1.east)!.5!(P2.west)$) {$\geq$};
-\end{tikzpicture}
-  \qqand
-\begin{tikzpicture}[baseline=(P1.-10)]
-	\node (P1) {
-  \begin{tikzpicture}[oriented WD, bb small, bb port length=0, baseline=(zero)]
-  	\node[circle, inner sep=1pt, draw] (sum) at (0,0) {};
-		\node[circle, inner sep=1pt, draw, fill, right=3 of sum] (dot) {};
-		\coordinate (helper1) at ($(sum)!.5!(dot)$);
-		\coordinate (helper2) at ($(dot)+(1,0)$);
-		\node[bb={1}{2}, above=of helper1] (d1) {$d$};
-		\node[bb={1}{2}, below=of helper1] (d2) {$d$};
-		\draw (sum) 		-- +(-1,0);
-		\draw (sum) 		to (d1_in1);
-		\draw (sum) 		to (d2_in1);
-		\draw (d1_out1) -- (d1_out1-|helper2);
-		\draw (d1_out2) to (dot);
-		\draw (d2_out1) to (dot);
-		\draw (dot) 		-- (dot-|helper2);
-		\draw (d2_out2) -- (d2_out2-|helper2);
-  \end{tikzpicture}
-  };
-  \node[right=of P1] (P2){
-   \begin{tikzpicture}[oriented WD, bb small, bb port length=0, baseline=(d)]
-  	\node[bb={1}{2}] (d) {$d$};
-		\node[circle, inner sep=1pt, draw, fill, right=1 of d] (dot) {};
-		\coordinate (helper1) at ($(d_out1)+(2, 1)$);
-		\coordinate (helper2) at ($(d_out2)+(2, -1)$);
-  	\draw (d_in1) --+(-1,0);
-		\draw (d_out1) to (helper1);
-		\draw (d_out2) to (helper2);
-		\draw (dot) -- (dot-|helper1);
-  \end{tikzpicture}
-  };
-  \node at ($(P1.east)!.5!(P2.west)$) {$\geq$};
-\end{tikzpicture}  
-\]
-which express $0\geq d(x,x)$ and $d(x,y)+d(y,z)\geq d(x,z)$.
-\end{definition}
 
 
 
