@@ -613,8 +613,9 @@ class $\Kdag$-stability.
 
 
 
-\chapter{Basic stability theory and boolean profunctor theory}
+\chapter{Basic analysis, stability theory, and profunctor theory}
 \label{chap.stability_and_profunctors}
+
 
 \chapter{Continuity by co-design (boolean profunctors)}
 \label{}
@@ -845,7 +846,7 @@ It is linear, i.e.\ strong monoidal with respect to $(0,+)$
 \qqand
 \intzero f+\intzero g=\intzero (f+g)
 \]
-Composing with $\const$ we obtain a functor $\intzero\colon(\rrnon,1,*)\to(\cat{J},\xid,\circ)$, called  \emph{integration from $0$} or simply \emph{integration} which is strong monoidal:
+Composing with $\const$ we obtain a functor $\intzero\colon(\rrnon,1,*)\to(\cat{J},\xid,\circ)$, called  \emph{accumulation} which is strong monoidal:
 \[
 \intzero 1=\xid
 \qqand
@@ -856,7 +857,7 @@ Composing with $\const$ we obtain a functor $\intzero\colon(\rrnon,1,*)\to(\cat{
 The rig $\nn[\xid]$ of polynomials in one variable is isomorphic to the finite sums of repeated integrals of $1$. That is, writing $\xid\coloneqq\intzero 1$, the function $\xid^2+2\xid+1$ is a perfect square in $(\cat{J},1,*)$. In this context, it is customary to denote $\xid$ by $x$ or $y$, but we choose not to for typographical clarity.
 \end{remark}
 
-Integration also preserves $\inf$ and $\sup$. It preserves $\dotminus y$ for any $y\in[0,\infty)$ and $\frac{\blank}{y}$ for any $y\in(0,\infty]$.
+Accumulation also preserves $\inf$ and $\sup$. It preserves $\dotminus y$ for any $y\in[0,\infty)$ and $\frac{\blank}{y}$ for any $y\in(0,\infty]$.
 
 Much of the above also works for the category $\cat{J}^+$ of endofunctors $([0,\infty],\geq)\to([0,\infty],\geq)$ in place of $\cat{J}$. 
 
@@ -1201,6 +1202,75 @@ The lefthand 2-cell is by adjunction; the bottom 2-cell is the identity on $\alp
   \quad\implies\quad
 	\epsilon\geq\|\Phi(t,e)\|.
 \]
+
+\chapter{Miscellaneous and Future work}
+
+Kan extensions bounding positive definite functions.
+
+\begin{definition}
+A \emph{Lawvere metric space} consists of a pair $(X,d)$, where $X$ is a set, $d\colon X\times X\to[0,\infty]$ is a function satisfying the following inequalities
+\[
+\begin{tikzpicture}[baseline=(P1.-10)]
+	\node (P1) {
+  \begin{tikzpicture}[oriented WD, bb small, bb port length=0, baseline=(zero)]
+  	\node[circle, inner sep=1pt, draw] 				(zero) at (0,0) {};
+  	\node[circle, inner sep=1pt, draw, fill] 	(term) at (1,0) {};
+  	\draw (zero) -- +(-1,0);
+  	\draw (term) -- +(1,0);
+  \end{tikzpicture}
+  };
+  \node[right=of P1] (P2){
+   \begin{tikzpicture}[oriented WD, bb small, bb port length=0, baseline=(d)]
+  	\node[bb={1}{2}] (d) {$d$};
+  	\draw (d_in1) --+(-1,0);
+		\node[circle, inner sep=1pt, draw, fill] at ($(d.east)+(.5, 0)$) (dot) {};
+		\draw (d_out1) to (dot);
+		\draw (d_out2) to (dot);
+		\draw (dot) -- +(1,0);
+  \end{tikzpicture}
+  };
+  \node at ($(P1.east)!.5!(P2.west)$) {$\geq$};
+\end{tikzpicture}
+  \qqand
+\begin{tikzpicture}[baseline=(P1.-10)]
+	\node (P1) {
+  \begin{tikzpicture}[oriented WD, bb small, bb port length=0, baseline=(zero)]
+  	\node[circle, inner sep=1pt, draw] (sum) at (0,0) {};
+		\node[circle, inner sep=1pt, draw, fill, right=3 of sum] (dot) {};
+		\coordinate (helper1) at ($(sum)!.5!(dot)$);
+		\coordinate (helper2) at ($(dot)+(1,0)$);
+		\node[bb={1}{2}, above=of helper1] (d1) {$d$};
+		\node[bb={1}{2}, below=of helper1] (d2) {$d$};
+		\draw (sum) 		-- +(-1,0);
+		\draw (sum) 		to (d1_in1);
+		\draw (sum) 		to (d2_in1);
+		\draw (d1_out1) -- (d1_out1-|helper2);
+		\draw (d1_out2) to (dot);
+		\draw (d2_out1) to (dot);
+		\draw (dot) 		-- (dot-|helper2);
+		\draw (d2_out2) -- (d2_out2-|helper2);
+  \end{tikzpicture}
+  };
+  \node[right=of P1] (P2){
+   \begin{tikzpicture}[oriented WD, bb small, bb port length=0, baseline=(d)]
+  	\node[bb={1}{2}] (d) {$d$};
+		\node[circle, inner sep=1pt, draw, fill, right=1 of d] (dot) {};
+		\coordinate (helper1) at ($(d_out1)+(2, 1)$);
+		\coordinate (helper2) at ($(d_out2)+(2, -1)$);
+  	\draw (d_in1) --+(-1,0);
+		\draw (d_out1) to (helper1);
+		\draw (d_out2) to (helper2);
+		\draw (dot) -- (dot-|helper1);
+  \end{tikzpicture}
+  };
+  \node at ($(P1.east)!.5!(P2.west)$) {$\geq$};
+\end{tikzpicture}  
+\]
+which express $0\geq d(x,x)$ and $d(x,y)+d(y,z)\geq d(x,z)$.
+\end{definition}
+
+
+
 
 
 \end{document}
