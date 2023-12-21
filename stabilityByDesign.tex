@@ -367,7 +367,7 @@ replacement=\&]{}\ar[r,slash, "{#1}"]\&{}\end{tikzcd}}
 
 
 \newcommand{\blank}[1][1pt]{\hspace{#1}\cdot\hspace{#1}}
-\newcommand{\rest}[2]{#1\big|_{#2}}
+\newcommand{\rest}[2][\blank]{#1\big|_{#2}}
 
 
 
@@ -858,6 +858,50 @@ The rig $\nn[\xid]$ of polynomials in one variable is isomorphic to the finite s
 
 Integration also preserves $\inf$ and $\sup$. It preserves $\dotminus y$ for any $y\in[0,\infty)$ and $\frac{\blank}{y}$ for any $y\in(0,\infty]$.
 
+Much of the above also works for the category $\cat{J}^+$ of endofunctors $([0,\infty],\geq)\to([0,\infty],\geq)$ in place of $\cat{J}$. 
+
+For any $r\in[0,\infty]$ there is a functor $\rest{r}\colon\cat{J}^+\to\cat{J}^+$ given by
+\[
+\rest[f]{r}(x)=
+	\begin{cases}
+		f(x)&\tn{ if }r\geq x\\
+		\infty&\tn{ if } x>r
+	\end{cases}
+\]
+For example, $\chi\coloneqq\rest[0]{0}$ is extreme: $\chi(0)=0$ and $\chi(r)=\infty$ for all $r>0$. 
+We can now define a monoidal structure $(\cat{J}^+,\chi,\star)$, where we refer to $\chi$ as \emph{extremis} and $\star$ as the \emph{join}, defined as follows:
+\[
+(f\star g)(x)=
+\begin{cases}
+	f(x)&\tn{ if }r> x\\
+	f(r)+g(x\dotminus r)&\tn{ if }x\geq r
+\end{cases}
+\;\where
+r\coloneqq\inf_{f(x)=\infty}x.
+\]
+One checks that $\chi\star f=f=f\star\chi$ for all $f\in\cat{J}^+$, as well as associativity.
+
+\begin{example}
+Using the $(\cat{J}^+,\chi,\star)$ monoidal structure can obtain the following:
+\begin{equation}\label{eqn.lowersemicont}
+\rest[f]{r}\star g=
+\begin{tikzpicture}[baseline=(cop)]
+	\draw[->, very thin] (0, 0) -- (7, 0);
+	\draw[->, very thin] (0, 0) -- (0, 2);
+	\node (sm) at (2,0) {$\shortmid$};
+	\node[below=1pt] at (sm) {$r$};
+	\begin{scope}[blue!70!black]
+  	\node[circle, draw, inner sep=1pt, fill] at (2,.8) (ccl) {};
+  	\draw (0, 0) to[out=5, in=200] (ccl);
+  	\node[circle, draw, inner sep=1pt] at (2,1) (cop) {};
+  	\draw[->] (cop) to[out=20, in=195] (6.8, 1.7);
+	\end{scope}
+\end{tikzpicture}
+\end{equation}
+for $r\in[0,\infty]$ and particular continuous functions $f,g$. We will see this sort of piecewise-defined functions as part of a larger category---the limiting notion---in the next section.
+
+\end{example}
+
 \section{Adjoint endofunctors of the reals}
 
 Throughout this section we assume that $\alpha\colon R\to R'$ is nondecreasing, but each of $R$ and $R'$ might be the poset carried by any of the following sets:
@@ -868,7 +912,7 @@ Throughout this section we assume that $\alpha\colon R\to R'$ is nondecreasing, 
 	(0,\infty]\hh[\qquad]{or}
 	(0,\infty),
 \end{equation}
-equipped with the $\geq$ ordering. For the time being we fix $R$ and $R'$ but remain agnostic about which of the posets from \eqref{eqn.RR'} they may be. Then $\alpha$ may or may not have a left adjoint, meaning a nondecreasing function $\alpha\ldag\colon R'\to R$ such that
+equipped with the $\geq$ ordering. For the time being we fix $R$ and $R'$ but remain agnostic about which of the posets from \eqref{eqn.RR} they may be. Then $\alpha$ may or may not have a left adjoint, meaning a nondecreasing function $\alpha\ldag\colon R'\to R$ such that
 \begin{equation}\label{eqn.unit_counit}
   \epsilon\geq\alpha(\alpha\ldag(\epsilon))
   \qqand
@@ -961,16 +1005,7 @@ For the converse, suppose that $\alpha$ preserves sups and \eqref{eqn.alpha_left
 
 \paragraph{Lower semicontinuity}
 
-\[
-\begin{tikzpicture}
-	\draw[->] (0, 0) -- (4, 0);
-	\draw[->] (0, 0) -- (0, 2);
-	\node[circle, draw, inner sep=1pt, blue, fill] at (2,.8) (cop) {};
-	\draw[blue] (0, 0) to[out=5, in=200] (cop);
-	\node[circle, draw, inner sep=1pt, blue] at (2,1) (ccl) {};
-	\draw[blue, ->] (ccl) to[out=65, in=220] (3.8, 1.7);	
-\end{tikzpicture}
-\]
+The function shown in \cref{eqn.lowersemicont} is lower semicontinuous. These turn out to be quite related to adjoint functors.
 
 \begin{lemma}\label{lemma.sups_lower_semi}
 If $\alpha\colon R\to R'$ is nondecreasing and preserves sups then it is lower-semicontinuous. 
