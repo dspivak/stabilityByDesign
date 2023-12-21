@@ -1123,7 +1123,9 @@ For the converse, suppose that $\alpha$ preserves sups and \eqref{eqn.alpha_left
 
 \paragraph{Lower semicontinuity}
 
-The function shown in \cref{eqn.lowersemicont} is lower semicontinuous. These turn out to be quite related to adjoint functors.
+The function shown in \cref{eqn.lowersemicont} is lower semicontinuous.%
+\footnote{Lower semicontinuous functions do not need to be piecewise continuous. For example, consider the function $f\colon\rrnon\to\rrnon$ that is $0$ on $[0, \frac{1}{2})$, $\frac{1}{2}$ on $[\frac{1}{2}, \frac{3}{4})$, etc. up to $1$, and then is $1$ on $[1,\infty)$. It is lower semicontinuous but has infinitely many discontinuities in any open interval containing $1$.}  
+ These turn out to be quite related to adjoint functors. A nondecreasing function $f\colon R\to R'$ is lower semicontinuous iff, for every $r'\in R'$, the preimage $f\inv[0,r']$ is closed, or in other words $f(\sup_{r\mid r'\geq f(r)}r)=r'$.
 
 \begin{lemma}\label{lemma.sups_lower_semi}
 If $\alpha\colon R\to R'$ is nondecreasing and preserves sups then it is lower-semicontinuous. 
