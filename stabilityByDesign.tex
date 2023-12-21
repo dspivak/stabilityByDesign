@@ -980,7 +980,47 @@ for $r\in[0,\infty]$ and particular continuous functions $f,g$. We will see this
 
 \end{example}
 
-\section{Adjoint endofunctors of the reals}
+\section{Adjoint endofunctors of the nonnegative reals}
+
+Adjoint functors $(\rrnon,\geq)\to(\rrnon,\geq)$ can be thought of in terms of graph transposes.
+\[
+\begin{tikzpicture}[x=.7cm, y=.5cm]
+	\draw [xstep=1, ystep=1, very thin] (0,0) grid (5,5);
+	\draw [very thin, ->] (5,0) -- (5.5, 0) node[below left] {$x$};
+	\draw [very thin, ->] (0,5) -- (0, 5.5) node[below left] {$y$};
+	\begin{scope}[blue!70!black, thick]
+  	\node[circle, draw, inner sep=1pt, fill] at (1,0) (ccl) {};
+  	\node[circle, draw, inner sep=1pt] 			 at (1,2) (cop) {};
+		\draw (0,0) -- (ccl);
+		\draw (cop) -- (2,3) -- (4,3) to[out=10, in=200] (5,5);
+	\end{scope}
+	\foreach \i in {0,..., 4} {
+		\node[left, font=\tiny] at (0, \i) {\i};
+		\node[below, font=\tiny] at (\i, 0) {\i};
+	}
+	\node[above] at (2.5, 5) {$y=f(x)$};
+\end{tikzpicture}
+\hspace{.6in}
+\begin{tikzpicture}[x=.7cm, y=.5cm]
+	\draw [xstep=1, ystep=1, very thin] (0,0) grid (5,5);
+	\draw [very thin, ->] (5,0) -- (5.5, 0) node[below left] {$x$};
+	\draw [very thin, ->] (0,5) -- (0, 5.5) node[below left] {$y$};
+	\begin{scope}[blue!70!black, thick]
+  	\node[circle, draw, inner sep=1pt, fill] at (4,3) (ccl) {};
+  	\node[circle, draw, inner sep=1pt] 			 at (2,3) (cop) {};
+		\draw (1,0) -- (1,2) -- (cop);
+		\draw (ccl) to[out=10, in=200] (5,5);
+	\end{scope}
+	\foreach \i in {0,..., 4} {
+		\node[left, font=\tiny] at (0, \i) {\i};
+		\node[below, font=\tiny] at (\i, 0) {\i};
+	}
+	\node[right] at (5, 2.5) {$x=f\ldag(y)$};
+\end{tikzpicture}
+\]
+For example, the graph to the right is that of a function $y=f(x)$ for some nondecreasing function (functor); for example $0=f(1)$ and $2=f(2)$. That to the left is its left adjoint $x=f\ldag(y)$, here it is drawn with $x$ as a function of $y$, namely we have drawn $x=f\ldag(y)$ on the same grid; for example $1=f\ldag(0)$ and $1=f\ldag(2)$. 
+
+
 
 Throughout this section we assume that $\alpha\colon R\to R'$ is nondecreasing, but each of $R$ and $R'$ might be the poset carried by any of the following sets:
 \begin{equation}\label{eqn.RR}
