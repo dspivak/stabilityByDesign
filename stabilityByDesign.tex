@@ -436,6 +436,7 @@ replacement=\&]{}\ar[r,slash, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\ivlnon}{[0,\infty)}
 \newcommand{\rrpos}{\rr_{>0}}
 \newcommand{\rrnon}{\rr_{\geq0}}
+\newcommand{\rrnonbar}{\bar{\rr}_{\geq0}}
 \newcommand{\K}{\cat{K}}
 
 \newcommand{\Kdag}[1][0]{\K\ldag}
@@ -853,21 +854,27 @@ which can be denoted by $\max$ and $\min$ when the arity $N$ is finite. For exam
 	y&\tn{ if }x\geq y
 \end{cases}
 \]
-All of these structures and coherence properties also exist for the extensions $[0,\infty]$ and $(0, \infty]$, and---with the exception of $0$ and its properties---the extension $(0,\infty)=\rrpos$ in place of $\rrnon$.
+All of these structures and coherence properties also exist for the larger rig $[0,\infty]$ in place of $\rrnon$.
 
-For any $y\in[0,\infty)$, shifting by $y$ has a right adjoint, defined as follows:
+For any $y\in\rrnon$, shifting by $y$ has a right adjoint, defined as follows:
 \[
 x+y\geq z\ifff x\geq z\dotminus y
 \where
 z\dotminus y=\max(z-y,0)
 \]
-For any $y\in(0,\infty]$, scaling by $y$ also has a right adjoint, denoted and defined as follows:
-\[
-x*y\geq z\ifff x\geq \frac{z}{y}
-\]
-For $y\in(0,\infty)$ these become equalities, $x*y = z\iff x = \frac{z}{y}$.
+This defines a closure for the monoidal structure $(\rrnon,0,+)$.%
+\footnote{This closure extends to a closure for $(\rrnonbar,0,+)$, putting $z\dotminus\infty\coloneqq 0$ for all $z\in[0,\infty]$.}
 
-\paragraph{Endofunctors of $\rrpos$.}
+For any $y\in(0,\infty)$, scaling by $y$ also has a right adjoint, defined as follows:
+\begin{equation}\label{eqn.scaling_adjoints}
+x*y\geq z\ifff x\geq \frac{z}{y}
+\end{equation}
+This is not quite a closure on $(\rrnon,1,*)$, because it is not defined for $y=0$.%
+\footnote{The existing adjoints extend to $\rrnonbar$, by putting $\frac{\infty}{y}=\infty$ for all $y\in(0,\infty)$ and $\frac{z}{\infty}\coloneqq 0$ for all $z\in[0,\infty]$. This is forced because for any $\epsilon>0$ one has $\epsilon*\infty\geq z$, so $\epsilon\geq\frac{z}{\infty}$. This in turn forces $0*\infty=\infty$. A rig is \emph{absorptive} if $0*x=0$ for all $x$; so if one wants to have the operation $\frac{\blank}{\infty}$, one must lose the absorptive property.}
+For $y\in(0,\infty)$ and $x,z\in[0,\infty]$, the inequalities in \eqref{eqn.scaling_adjoints} become equalities
+\[x*y = z\iff x = \frac{z}{y}.\]
+
+\paragraph{Endofunctors of $\rrnon$.}
 
 The poset of order-preserving maps $\cat{J}\coloneqq\{f\colon\rrnon\to\rrnon\}$, ordered pointwise
 \[
@@ -934,10 +941,6 @@ Composing with $\const$ we obtain a functor $\intzero\colon(\rrnon,1,*)\to(\cat{
 \qqand
 (\intzero r)\circ(\intzero s)=\intzero(r*s)
 \]
-
-\begin{remark}
-The rig $\nn[\xid]$ of polynomials in one variable is isomorphic to the finite sums of repeated integrals of $1$. That is, writing $\xid\coloneqq\intzero 1$, the function $\xid^2+2\xid+1$ is a perfect square in $(\cat{J},1,*)$. In this context, it is customary to denote $\xid$ by $x$ or $y$, but we choose not to for typographical clarity.
-\end{remark}
 
 Accumulation also preserves $\inf$ and $\sup$. It preserves $\dotminus y$ for any $y\in[0,\infty)$ and $\frac{\blank}{y}$ for any $y\in(0,\infty]$.
 
