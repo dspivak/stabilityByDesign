@@ -277,7 +277,6 @@ replacement=\&]{}\ar[r,slash, "{#1}"]\&{}\end{tikzcd}}
 \DeclareMathOperator{\Tr}{Tr}
 \DeclareMathOperator{\el}{El}
 \DeclareMathOperator{\Funn}{Fun}
-\DeclareMathOperator{\constt}{const}
 
 
 \newcommand{\tw}{\Cat{Tw}}
@@ -365,6 +364,9 @@ replacement=\&]{}\ar[r,slash, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\coalg}{\tn{-}\Cat{Coalg}}
 \newcommand{\const}[1][\blank]{#1 !}
 
+\newcommand{\true}{\texttt{true}}
+\newcommand{\false}{\texttt{false}}
+
 
 \newcommand{\blank}[1][1pt]{\hspace{#1}\cdot\hspace{#1}}
 \newcommand{\rest}[2][\blank]{#1\big|_{#2}}
@@ -380,7 +382,7 @@ replacement=\&]{}\ar[r,slash, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\ifff}[1][\;\;]{#1\xLeftrightarrow{\quad}#1}
 \newcommand{\hi}[4][]{#1 #2 \tn{\textit{#4}} #3}
 \newcommand{\where}[1][,]{\hi[#1]{\qquad}{\quad}{where}}
-
+\newcommand{\qimplies}{\hh[\quad]{$\implies$}}
 
 \newcommand{\dnote}[1]{{\color{blue}David says:}~#1\quad{\color{blue}$\lozenge$}}
 
@@ -988,9 +990,9 @@ for $r\in[0,\infty]$ and particular continuous functions $f,g$. We will see this
 Adjoint functors $(\rrnon,\geq)\to(\rrnon,\geq)$ can be thought of in terms of graph transposes.
 \[
 \begin{tikzpicture}[x=.7cm, y=.5cm]
-	\draw [xstep=1, ystep=1, very thin] (0,0) grid (5,5);
-	\draw [very thin, ->] (5,0) -- (5.5, 0) node[below left] {$x$};
-	\draw [very thin, ->] (0,5) -- (0, 5.5) node[below left] {$y$};
+	\draw [xstep=1, ystep=1, very thin, densely dotted] (0,0) grid (5,5);
+	\draw [very thin, ->] (0,0) -- (5.5, 0) node[below left] {$x$};
+	\draw [very thin, ->] (0,0) -- (0, 5.5) node[below left] {$y$};
 	\begin{scope}[blue!70!black, thick]
   	\node[circle, draw, inner sep=1pt, fill] at (1,0) (ccl) {};
   	\node[circle, draw, inner sep=1pt] 			 at (1,2) (cop) {};
@@ -1005,9 +1007,9 @@ Adjoint functors $(\rrnon,\geq)\to(\rrnon,\geq)$ can be thought of in terms of g
 \end{tikzpicture}
 \hspace{.6in}
 \begin{tikzpicture}[x=.7cm, y=.5cm]
-	\draw [xstep=1, ystep=1, very thin] (0,0) grid (5,5);
-	\draw [very thin, ->] (5,0) -- (5.5, 0) node[below left] {$x$};
-	\draw [very thin, ->] (0,5) -- (0, 5.5) node[below left] {$y$};
+	\draw [xstep=1, ystep=1, very thin, densely dotted] (0,0) grid (5,5);
+	\draw [very thin, ->] (0,0) -- (5.5, 0) node[below left] {$x$};
+	\draw [very thin, ->] (0,0) -- (0, 5.5) node[below left] {$y$};
 	\begin{scope}[blue!70!black, thick]
   	\node[circle, draw, inner sep=1pt, fill] at (4,3) (ccl) {};
   	\node[circle, draw, inner sep=1pt] 			 at (2,3) (cop) {};
@@ -1021,7 +1023,7 @@ Adjoint functors $(\rrnon,\geq)\to(\rrnon,\geq)$ can be thought of in terms of g
 	\node[right] at (5, 2.5) {$x=f\ldag(y)$};
 \end{tikzpicture}
 \]
-For example, the graph to the right is that of a function $y=f(x)$ for some nondecreasing function (functor); for example $0=f(1)$ and $2=f(2)$. That to the left is its left adjoint $x=f\ldag(y)$, here it is drawn with $x$ as a function of $y$, namely we have drawn $x=f\ldag(y)$ on the same grid; for example $1=f\ldag(0)$ and $1=f\ldag(2)$. 
+For example, the graph to the right is that of a function $y=f(x)$ for some nondecreasing function (functor); for example $0=f(1)$ and $2=f(2)$. That to the left is its left adjoint $x=f\ldag(y)$, here it is drawn with $x$ as a function of $y$, namely we have drawn $x=f\ldag(y)$ on the same grid; for example $1=f\ldag(0)$ and $1=f\ldag(2)$.
 
 
 
@@ -1271,6 +1273,78 @@ continuous, $\epsilon=0$. This proves the first claim, which is equivalent to th
 
 \chapter{Classical and $\Kdag$-stability by co-design}
 \label{}
+
+\begin{definition}[Dynamical system]
+Let $(T,0,+)$ be a monoid. A \emph{$T$-dynamical system} consists of a pair $(X,\Phi)$, where $X$ is a set and $\Phi\colon T\times X\to X$ is a $T$-action, meaning it satisfies
+\[
+  \Phi(0,x)=x
+  \qqand
+  \Phi(t_1+t_2,x)=\Phi(t_1,\Phi(t_2,x)).
+\]
+\end{definition}
+
+
+\begin{definition}[Classical stability]
+For a set $X$ and norm $\|\blank\|\colon X\to\rrnon$, a dynamical system $\Phi\colon T\times X\to X$ is \emph{classically stable} if: for every $\epsilon>0$ there exists a $\delta>0$ such that for all $t\in T$ and $x\in X$, the following implication holds:
+\[
+	\delta\geq\|x\|
+	\qimplies
+	\epsilon\geq\|\Phi(t,x)\|
+	\qedhere
+\]
+\end{definition}
+Assuming the axiom of choice, we can translate into the constructive version.
+
+\begin{definition}[Constructive classical stability]
+For $X$, $\|\blank\|\colon X\to\rrnon$, and $\Phi\colon T\times X\to X$ as above, a \emph{classical stability structure} consists of a function $\Delta\colon(0,\infty)\to(0,\infty)$ such that for all $\epsilon>0$, $t\in T$, and $x\in X$, the following implication holds:
+\[
+	\Delta(\epsilon)\geq\|x\|
+	\qimplies
+	\epsilon\geq\|\Phi(t,x)\|
+	\qedhere
+\]
+\end{definition}
+
+We can phrase the latter as a comparison of co-design problems (boolean-profunctors) having the form $((0,\infty),\geq)\tickar T\times X$. The right-hand side is considered as a discrete poset. Such profunctors are thus simply functions
+\[
+P\colon (0,\infty)\times [0,\infty)\times X\to\{\false,\true\}
+\]
+such that if $P(\epsilon, t, x)$ holds and $\epsilon'\geq\epsilon$ then $P(\epsilon', t, x)$ also holds. For us, the two profunctors are
+\[
+	P(\epsilon, t, x)\coloneqq (\Delta(\epsilon)\geq^?\|x\|)	
+  \qqand
+	Q(\epsilon, t, x)\coloneqq (\epsilon\geq^?\|\Phi(t,x)\|)
+\]
+The comparison question can be written concisely as left or verbosely as right:
+\[
+\begin{tikzcd}[column sep=2cm]
+	\rrpos
+		\ar[r, bend left=18pt, tick, "P", ""' name=P]
+		\ar[r, bend right=18pt, tick, "Q"', "" name=Q]&
+	T\times X
+		\ar[from=P, to=P|-Q, Rightarrow, "?"]
+\end{tikzcd}
+\qqand
+\forall(\epsilon,t,x)\in\rrpos\times T\times X,\quad
+P(\epsilon, t, x)\Rightarrow Q(\epsilon, t, x)
+\]
+
+\begin{proposition}\label{prop.lyapunov}
+Let $X$ be a manifold and $\Phi\colon\rrnon\times X\to X$ a smooth action of $(\rrnon,0,+)$, and let $f\colon X\to TX$ be the vector field given by
+\[f(x)\coloneqq \frac{\partial\Phi}{\partial t}\big|_{(0,x)}=\lim_{t\to 0}\frac{\Phi(t,x)}{t}.\] 
+For a function $V\colon X\to\rrnon$, we have $0\geq TV\circ f$ iff $0\geq V(\Phi(t,x))$ for all $t,x$. That is, the square to the left laxly commutes iff the square to the right laxly commutes:
+\[
+\begin{tikzcd}
+	squares
+\end{tikzcd}
+\]
+\end{proposition}
+
+\begin{definition}[Lyapunov function]
+Given a smooth action $\Phi\colon\rrnon\times X\to X$, a function satisfying the two equivalent conditions in \cref{prop.lyapunov} is called a \emph{Lyapunov function} for $\Phi$.
+\end{definition}
+
+\paragraph{Class $\Kdag$ stability implies classical stability}
 
 \[
 \begin{tikzcd}
