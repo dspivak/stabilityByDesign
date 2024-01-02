@@ -378,6 +378,8 @@ replacement=\&]{}\ar[r,slash, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\hh}[2][]{#1 \tn{\textit{#2}} #1}
 \newcommand{\qqand}{\hh[\qquad]{and}}
 \newcommand{\qand}{\hh[\quad]{and}}
+\newcommand{\qqor}{\hh[\qquad]{or}}
+\newcommand{\qor}{\hh[\quad]{or}}
 \renewcommand{\iff}[1][\;\;]{#1\Leftrightarrow#1}
 \newcommand{\ifff}[1][\;\;]{#1\xLeftrightarrow{\quad}#1}
 \newcommand{\hi}[4][]{#1 #2 \tn{\textit{#4}} #3}
@@ -1337,9 +1339,9 @@ For $X$, $\|\blank\|\colon X\to\rrnon$, and $\Phi\colon T\times X\to X$ as above
 
 We can phrase the latter as a comparison of co-design problems (boolean-profunctors) having the form $((0,\infty),\geq)\tickar T\times X$. The right-hand side is considered as a discrete poset. Such profunctors are thus simply functions
 \[
-P\colon (0,\infty)\times [0,\infty)\times X\to\{\false,\true\}
+P,Q\colon (0,\infty)\times T\times X\to\{\false,\true\}
 \]
-such that if $P(\epsilon, t, x)$ holds and $\epsilon'\geq\epsilon$ then $P(\epsilon', t, x)$ also holds. For us, the two profunctors are
+such that if $P(\epsilon, t, x)$ holds and $\epsilon'\geq\epsilon$ then $P(\epsilon', t, x)$ also; similarly for $Q$. The two profunctors are
 \[
 	P(\epsilon, t, x)\coloneqq (\Delta(\epsilon)\geq^?\|x\|)	
   \qqand
@@ -1354,24 +1356,36 @@ The comparison question can be written concisely as left or verbosely as right:
 	T\times X
 		\ar[from=P, to=P|-Q, Rightarrow, "?"]
 \end{tikzcd}
-\qqand
+\qqor
 \forall(\epsilon,t,x)\in\rrpos\times T\times X,\quad
-P(\epsilon, t, x)\Rightarrow Q(\epsilon, t, x)
+P(\epsilon, t, x)\Rightarrow^? Q(\epsilon, t, x)
 \]
 
 \begin{proposition}\label{prop.lyapunov}
 Let $X$ be a manifold and $\Phi\colon\rrnon\times X\to X$ a smooth action of $(\rrnon,0,+)$, and let $f\colon X\to TX$ be the vector field given by
 \[f(x)\coloneqq \frac{\partial\Phi}{\partial t}\big|_{(0,x)}=\lim_{t\to 0}\frac{\Phi(t,x)}{t}.\] 
-For a function $V\colon X\to\rrnon$, we have $0\geq TV\circ f$ iff $0\geq V(\Phi(t,x))$ for all $t,x$. That is, the square to the left laxly commutes iff the square to the right laxly commutes:
+For a function $V\colon X\to\rrnon$, the vector field formula $\vec{0}\geq TV\circ f$ holds iff we have $V(x)\geq V(\Phi(t,x))$ for all $t,x$. That is, the square to the right laxly commutes iff the square to the left laxly commutes:
 \[
 \begin{tikzcd}
-	squares
+	\rrnon\times X\ar[r, "\Phi"]\ar[d, "\pi"']&
+	X\ar[r, "f"]\ar[d, "V"']&
+	TX\ar[d, "TV"]\\
+	X\ar[r, "V"']&
+	\rrnon\ar[r, "\vec{0}"']\ar[ul, phantom, "\Rightarrow"]&
+	T\rrnon\ar[ul, phantom, "\Rightarrow"]
 \end{tikzcd}
 \]
 \end{proposition}
+\begin{proof}
+For all $x,t$, we have $V(x)\geq V(\Phi(t,x))$ iff $0\geq V(\Phi(t,x))-V(x)$. So if $V(x)\geq V(\Phi(t,x))$ then, noting that $x=\Phi(0,x)$, dividing both sides by $t>0$ and taking the limit, we have
+\[
+0\geq\lim_{t\to 0}\frac{(V\circ\Phi)(t,x))-(V\circ\Phi)(0,x)}{t}=TV\circ f.
+\]
+In the other direction, one uses the comparison lemma. \dnote{Improve this.}
+\end{proof}
 
 \begin{definition}[Lyapunov function]
-Given a smooth action $\Phi\colon\rrnon\times X\to X$, a function satisfying the two equivalent conditions in \cref{prop.lyapunov} is called a \emph{Lyapunov function} for $\Phi$.
+Given a smooth action $\Phi\colon\rrnon\times X\to X$, a function $V\colon X\to\rrnon$ satisfying the two equivalent conditions in \cref{prop.lyapunov} is called a \emph{Lyapunov function} for $\Phi$.
 \end{definition}
 
 \paragraph{Class $\Kdag$ stability implies classical stability}
