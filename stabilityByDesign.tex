@@ -1148,7 +1148,7 @@ Conversely, suppose $A_{\leq r'}$ contains its upper endpoint for each $r'\in R'
 Finally, suppose $S$ is infinite and let $r_S\coloneqq\sup_{s\in S}s$ and $r'\coloneqq\sup_{s\in S}\alpha(s)$. We clearly have $S\ss S_{r'}$ and $\big(\sup_{r\in S_{r'}}r\big)\geq r_S$. Then $\alpha$ preserves this sup (i.e.\ $r'=\alpha(r_S)$) because: $\alpha(r_S)\geq r'$ holds by \eqref{eqn.sup_lax}, and $r'=\alpha\big(\sup_{r\in S_{r'}}r\big)\geq\alpha(r_S)$ holds by lower semicontinuity.
 \end{proof}
 
-\begin{theorem}
+\begin{theorem}\label{thm.omnibus}
 Suppose $R,R'$ are as above and that $\alpha\colon R\to R'$ is nondecreasing. Define the following named properties:
 \begin{description}[leftmargin=\parindent,labelindent=\parindent]
 	\item[LS:] $\alpha$ is lower semicontinuous.
@@ -1160,10 +1160,12 @@ where implicitly, if $0\in R$ and $0\not\in R'$ then (PZ) cannot hold. We can ch
 \begin{itemize}
 	\item If $R=[0,\infty]$, then $\alpha$ is a right adjoint iff LS, PZ.
 	\item If $R=[0,\infty)$, then $\alpha$ is a right adjoint iff LS, PZ, UA.
-	\item If $R=(0,\infty]$, and $0\in R'$ then $\alpha$ is a right adjoint iff LS, UB.
-	\item If $R=(0,\infty]$, and $0\not\in R'$ then $\alpha$ is a right adjoint iff LS, UB.
-	\item If $R=(0,\infty)$, and $0\in R'$ then $\alpha$ is a right adjoint iff LS, UA, UB.
-	\item If $R=(0,\infty)$, and $0\not\in R'$ then $\alpha$ is a right adjoint iff LS, UA, UB.
+%	\item If $R=(0,\infty]$, and $0\in R'$ then $\alpha$ is a right adjoint iff LS, UB.
+%	\item If $R=(0,\infty]$, and $0\not\in R'$ then $\alpha$ is a right adjoint iff LS, UB.
+	\item If $R=(0,\infty]$, then $\alpha$ is a right adjoint iff LS, UB.
+%	\item If $R=(0,\infty)$, and $0\in R'$ then $\alpha$ is a right adjoint iff LS, UA, UB.
+%	\item If $R=(0,\infty)$, and $0\not\in R'$ then $\alpha$ is a right adjoint iff LS, UA, UB.
+	\item If $R=(0,\infty)$, then $\alpha$ is a right adjoint iff LS, UB, UA.
 \end{itemize}
 \end{theorem}
 \begin{proof}
@@ -1235,43 +1237,68 @@ By \cref{lemma.sups_lower_semi}, in each case the named properties are enough to
 %For the second, we apply $\clg{\alpha}$ to $\clg[\delta]{\alpha}\geq r\geq\delta$ and use the first claim to conclude $\clg[\delta]{\alpha}\geq \clg[r]{\alpha}\geq\clg[\delta]{\alpha}$. Similarly, we apply $\flr{\alpha}$ to $\epsilon\geq r'\geq\flr[\epsilon]{\alpha}$ and use the first claim to conclude $\flr[\epsilon]{\alpha}\geq \flr[r']{\alpha}\geq\flr[\epsilon]{\alpha}$.
 %\end{proof}
 
-\begin{proposition}\label{prop.cts_adjoint_close}
-Let $R\coloneqq [0,\infty]$, and suppose $\alpha\colon R\to R'$ is continuous. Then $\alpha$ has a left adjoint iff $0\in R'$ and $\alpha(0)=0$.
-\end{proposition}
-\begin{proof}
-	If $\alpha$ has a left adjoint $\alpha\ldag$, then $0\geq\alpha(\alpha\ldag(0))\geq\alpha(0)$. For the converse, suppose $0\in R'$ and $\alpha(0)=0$. Then $\alpha$ preserves all sups: it preserves the empty sup, and all other sups follow from monotonicity and continuity. Defining $\alpha\ldag$ as in \eqref{eqn.alpha_left}, one checks that both inequalities in \eqref{eqn.unit_counit} hold.
-\end{proof}
-
-\begin{proposition}\label{prop.cts_v1}
-Let $R\coloneqq [0,\infty)$, and suppose $\alpha\colon R\to R'$ is continuous. Then $\alpha$ has a left adjoint iff $0\in R'$, $\alpha(0)=0$, and $\alpha$ is surjective.
-\end{proposition}
-\begin{proof}
-	The proof of \cref{prop.cts_adjoint_close} goes through until one attempts to define $\alpha\ldag$ as in \eqref{eqn.alpha_left}. When $\alpha$ is surjective then the proof proceeds as before, so surjectivity is sufficient. However, if $\alpha$ is not surjective, i.e.\ if there exists $\epsilon$ such that $\epsilon\geq\alpha(\delta)$ for all $\delta$, then $\alpha\ldag(\epsilon)$ needs to be $\infty$, but it is not in the domain. Thus surjectivity is necessary.
-\end{proof}
-
-\begin{proposition}\label{prop.cts_v2}
-Suppose $0\in R,R'$, and suppose $\alpha\colon R\to R'$ is continuous. If it has a left adjoint $\alpha\ldag$, then it satisfies
-\begin{equation}\label{eqn.adj_restriction}
-	\alpha\ldag(\epsilon)=0\implies
-	\epsilon=0.
-\end{equation}
-In other words, letting $i\colon R-\{0\}\inj R$ be the inclusion, then under the above conditions there exists a dashed arrow making the following diagram commute:
-\begin{equation}\label{eqn.adj_restriction_diagram}
-\begin{tikzcd}
-	R-\{0\}\ar[r, "i"]\ar[d, dashed, "\Delta_\alpha"']&
-	R\ar[d, "\alpha\ldag"]\\
-	R'-\{0\}\ar[r, "i"']&
-	R'
-\end{tikzcd}
-\end{equation}
-%In this case, $\Delta_\alpha$ is itself a left adjoint iff $\alpha\inv(0)=\{0\}$.
-\end{proposition}
-\begin{proof}
-First note that we satisfy either the hypotheses of \cref{prop.cts_v1} or \cref{prop.cts_v2}, so $\alpha(0)=0$. Now suppose $\alpha\ldag(\epsilon)=0$. By \cref{lemma.sup_formula}, we have $\sup_{\{\delta|\epsilon\geq\alpha(\delta)\}}\delta=0$, so $\{\delta\mid\epsilon\geq\alpha(\delta)\}=\{0\}$. Since $\alpha$ is
-continuous, $\epsilon=0$. This proves the first claim, which is equivalent to the existence of the dashed arrow as in \eqref{eqn.adj_restriction}.
+%\begin{proposition}\label{prop.cts_adjoint_close}
+%Let $R\coloneqq [0,\infty]$, and suppose $\alpha\colon R\to R'$ is continuous. Then $\alpha$ has a left adjoint iff $0\in R'$ and $\alpha(0)=0$.
+%\end{proposition}
+%\begin{proof}
+%	If $\alpha$ has a left adjoint $\alpha\ldag$, then $0\geq\alpha(\alpha\ldag(0))\geq\alpha(0)$. For the converse, suppose $0\in R'$ and $\alpha(0)=0$. Then $\alpha$ preserves all sups: it preserves the empty sup, and all other sups follow from monotonicity and continuity. Defining $\alpha\ldag$ as in \eqref{eqn.alpha_left}, one checks that both inequalities in \eqref{eqn.unit_counit} hold.
+%\end{proof}
 %
-%For the last claim, if $\Delta_\alpha$ has a right adjoint
+%\begin{proposition}\label{prop.cts_v1}
+%Let $R\coloneqq [0,\infty)$, and suppose $\alpha\colon R\to R'$ is continuous. Then $\alpha$ has a left adjoint iff $0\in R'$, $\alpha(0)=0$, and $\alpha$ is surjective.
+%\end{proposition}
+%\begin{proof}
+%	The proof of \cref{prop.cts_adjoint_close} goes through until one attempts to define $\alpha\ldag$ as in \eqref{eqn.alpha_left}. When $\alpha$ is surjective then the proof proceeds as before, so surjectivity is sufficient. However, if $\alpha$ is not surjective, i.e.\ if there exists $\epsilon$ such that $\epsilon\geq\alpha(\delta)$ for all $\delta$, then $\alpha\ldag(\epsilon)$ needs to be $\infty$, but it is not in the domain. Thus surjectivity is necessary.
+%\end{proof}
+%
+%\begin{proposition}\label{prop.cts_v2}
+%Suppose $0\in R,R'$, and suppose $\alpha\colon R\to R'$ is continuous. If it has a left adjoint $\alpha\ldag$, then it satisfies
+%\begin{equation}\label{eqn.adj_restriction}
+%	\alpha\ldag(\epsilon)=0\implies
+%	\epsilon=0.
+%\end{equation}
+%In other words, letting $i\colon R-\{0\}\inj R$ be the inclusion, then under the above conditions there exists a dashed arrow making the following diagram commute:
+%\begin{equation}\label{eqn.adj_restriction_diagram}
+%\begin{tikzcd}
+%	R-\{0\}\ar[r, "i"]\ar[d, dashed, "\Delta_\alpha"']&
+%	R\ar[d, "\alpha\ldag"]\\
+%	R'-\{0\}\ar[r, "i"']&
+%	R'
+%\end{tikzcd}
+%\end{equation}
+%%In this case, $\Delta_\alpha$ is itself a left adjoint iff $\alpha\inv(0)=\{0\}$.
+%\end{proposition}
+%\begin{proof}
+%First note that we satisfy either the hypotheses of \cref{prop.cts_v1} or \cref{prop.cts_v2}, so $\alpha(0)=0$. Now suppose $\alpha\ldag(\epsilon)=0$. By \cref{lemma.sup_formula}, we have $\sup_{\{\delta|\epsilon\geq\alpha(\delta)\}}\delta=0$, so $\{\delta\mid\epsilon\geq\alpha(\delta)\}=\{0\}$. Since $\alpha$ is
+%continuous, $\epsilon=0$. This proves the first claim, which is equivalent to the existence of the dashed arrow as in \eqref{eqn.adj_restriction}.
+%%
+%%For the last claim, if $\Delta_\alpha$ has a right adjoint
+%\end{proof}
+
+
+\begin{corollary}\label{cor.restrict_adjoint}
+If $\alpha'\colon(0,\infty)\to (0,\infty)$ is a right adjoint, then it is the restriction of a right adjoint $\alpha\colon[0,\infty)\to [0,\infty)$.
+\end{corollary}
+\begin{proof}
+Suppose $\alpha'$ is a right adjoint. By \cref{thm.omnibus}, it satisfies LS, UA, and UB. Define $\alpha\colon[0,\infty)\to [0,\infty)$ by $\alpha(0)\coloneqq 0$ and $\alpha(r)\coloneqq\alpha'(r)$ for $r>0$. Then it preserves 0 (PZ) and satisfies UA because $\alpha'$ does. For any $r'\in[0,\infty)$, we have
+\[\alpha\inv[0,r']=\{0\}\cup(\alpha')\inv(0,r'],\]
+which is closed in $[0,\infty)$. Hence $\alpha$ satisfies LS and is a right adjoint, again by \cref{thm.omnibus}.
 \end{proof}
+
+\begin{definition}
+We say a monotone map $\alpha\colon[0,\infty)\to [0,\infty)$ is \emph{class $\Kdag$} if it restricts to a right adjoint $\alpha'\colon(0,\infty)\to(0,\infty)$.
+\end{definition}
+
+By \cref{cor.restrict_adjoint}, a map $\alpha$ is class $\Kdag$ iff it fits into a diagram
+\[
+\begin{tikzcd}[column sep=large]
+	{(0,\infty)}\ar[r, shift left=4pt, "\alpha'"]\ar[d, hook, "i"']&
+	{(0,\infty)}\ar[l, shift left=4pt, "{(\alpha')\ldag}"]\ar[d, hook, "i"]\\
+	{[0,\infty)}\ar[r, shift left=4pt, "\alpha"]&
+	{[0,\infty)}\ar[l, shift left=4pt, "\alpha\ldag"]
+\end{tikzcd}
+\]
+where the commutation is $i\circ\alpha'=\alpha\circ i$ and $i\circ(\alpha')\ldag=\alpha\ldag\circ i$.
 
 
 \chapter{Classical and $\Kdag$-stability by co-design}
@@ -1395,12 +1422,15 @@ Given a smooth action $\Phi\colon\rrnon\times X\to X$, a function satisfying the
 \end{tikzcd}
 \]
 
-The lefthand 2-cell is by adjunction; the bottom 2-cell is the identity on $\alpha$. Suppose given class-$\Kdag$-stability, which is the right-hand 2-cell. Then for all $\epsilon\in(0,\infty)$ and $(t,e)\in T\times E$, and suppressing the inclusions $i$, we obtain classical stability:
+Suppose given class-$\Kdag$-stability, which is the right-hand 2-cell, where $\alpha$ is class-$\Kdag$. Then we form the lefthand 2-cell as the unit of the adjunction; the bottom 2-cell is the identity on $\alpha$. The map $\Delta$ is $(\alpha')\ldag$ from \cref{cor.restrict_adjoint} and the 2-cell is the identity on $\alpha\ldag\circ i=i\circ\Delta$. 
+
+We obtain classical stability because for all $\epsilon\in(0,\infty)$ and $(t,e)\in T\times E$, and suppressing the inclusions $i$, we have:
 \[
   \Delta(\epsilon)\geq \|e\|
   \quad\implies\quad
 	\epsilon\geq\|\Phi(t,e)\|.
 \]
+
 
 \chapter{Miscellaneous and Future work}
 
