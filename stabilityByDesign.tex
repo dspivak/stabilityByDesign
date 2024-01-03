@@ -119,8 +119,8 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 
 \newcommand{\adjrpos}[6][30pt]{%[size] Cat R, Right, Left, Cat L.
 \begin{tikzcd}[ampersand replacement=\&, column sep=#1]
-  #2\ar[r, shift left=7pt, "#3"]\&
-  #5\ar[l, shift left=7pt, "#4"]
+  #2\ar[r, shift left=4.5pt, "#3"]\&
+  #5\ar[l, shift left=4.5pt, "#4"]
   \ar[l, phantom, "\scriptstyle#6"]
 \end{tikzcd}
 }
@@ -1048,7 +1048,7 @@ equipped with the $\geq$ ordering. For the time being we fix $R$ and $R'$ but re
 \end{equation}
 If one exists then as such it will be unique, and we write
 \[
-\adjpos{R'}{\alpha\ldag}{\alpha}{R}{\geq}.
+\adjrpos{R}{\alpha}{\alpha\ldag}{R'}{\geq}.
 \]
 
 
@@ -1302,6 +1302,19 @@ By \cref{cor.restrict_adjoint}, a map $\alpha$ is class $\Kdag$ iff it fits into
 \]
 where the commutation is $i\circ\alpha'=\alpha\circ i$ and $i\circ(\alpha')\ldag=\alpha\ldag\circ i$.
 
+\begin{corollary}
+For a monotone function $\alpha\colon[0,\infty)\to[0,\infty)$, the following are equivalent:
+\begin{enumerate}
+	\item $\alpha$ is class $\Kdag$.
+	\item $\alpha$ restricts to a right adjoint $\alpha\big|_{(0,\infty)}\colon(0,\infty)\to (0,\infty)$.
+	\item $\alpha$ is a right adjoint and it restricts to a right adjoint $\alpha\big|_{(0,\infty)}\colon(0,\infty)\to (0,\infty)$.
+	\item $\alpha$ is lower semicontinuous, continuous at 0, and unbounded above, and $\alpha(0)=0$.
+\end{enumerate}
+\end{corollary}
+\begin{proof}
+
+\end{proof}
+
 
 \chapter{Classical and $\Kdag$-stability by co-design}
 \label{}
@@ -1361,6 +1374,24 @@ The comparison question can be written concisely as left or verbosely as right:
 P(\epsilon, t, x)\Rightarrow^? Q(\epsilon, t, x)
 \]
 
+In fact, we can construct these as follows:
+\[
+\begin{tikzcd}[column sep=65pt]
+	{(0,\infty)}
+		\ar[d, "\Delta"']
+		\ar[dd, bend left=40pt, hook, "i"]
+		\ar[r, bend left=18pt, tick, "\Delta(\epsilon)\geq\|x\|", ""' name=P]
+		\ar[r, bend right=18pt, tick, "{\epsilon\geq\|\Phi(t,x)\|}"', "" name=Q]
+	&
+	T\times X\ar[d, shift right=4pt, "\pi"']\ar[d, shift left=4pt, "\Phi"]\\
+	{0,\infty)}\ar[d, hook, "i"']\ar[r, phantom, gray, "\text{cart}"]&
+	X\ar[d, "\|\blank\|"]\\
+	{[0,\infty)}\ar[r, tick, "\geq"']&
+	{[0,\infty)}
+	\ar[from=P, to=Q-|P, Rightarrow, "?"]
+\end{tikzcd}
+\]
+
 \begin{proposition}\label{prop.lyapunov}
 Let $X$ be a manifold and $\Phi\colon\rrnon\times X\to X$ a smooth action of $(\rrnon,0,+)$, and let $f\colon X\to TX$ be the vector field given by
 \[f(x)\coloneqq \frac{\partial\Phi}{\partial t}\big|_{(0,x)}=\lim_{t\to 0}\frac{\Phi(t,x)}{t}.\] 
@@ -1400,7 +1431,7 @@ Given a smooth action $\Phi\colon\rrnon\times X\to X$, a function $V\colon X\to\
 		\ar[d, "\Delta"]
 		\ar[r, "\tick"{marking}, "i\circ\Delta\geq\|\pi\|"']
 	&[15pt]
-	T\times E
+	T\times X
 		\ar[d, "\pi"]\ar[ddr, bend left=20pt, "\Phi"]
 	\\
 	{[0,\infty)}
@@ -1409,7 +1440,7 @@ Given a smooth action $\Phi\colon\rrnon\times X\to X$, a function $V\colon X\to\
 	{(0,\infty)}
 		\ar[d, hook, "i"]
 	&
-	E
+	X
 		\ar[l, phantom, "\text{cart}"]
 		\ar[d, "\|\blank\|"]
 	\\
@@ -1423,7 +1454,7 @@ Given a smooth action $\Phi\colon\rrnon\times X\to X$, a function $V\colon X\to\
 	{[0,\infty)}
 		\ar[d, "\alpha"]\ar[r, Rightarrow, yshift=6pt, shorten=1pt]
 	&[-10pt]
-	E
+	X
 		\ar[dl, bend left, "\|\blank\|"]
 	\\
 	{[0,\infty)}\ar[rr, "\ttick"{marking, name=B2}, "\geq" below=1pt]
@@ -1438,11 +1469,11 @@ Given a smooth action $\Phi\colon\rrnon\times X\to X$, a function $V\colon X\to\
 
 Suppose given class-$\Kdag$-stability, which is the right-hand 2-cell, where $\alpha$ is class-$\Kdag$. Then we form the lefthand 2-cell as the unit of the adjunction; the bottom 2-cell is the identity on $\alpha$. The map $\Delta$ is $(\alpha')\ldag$ from \cref{cor.restrict_adjoint} and the 2-cell is the identity on $\alpha\ldag\circ i=i\circ\Delta$. 
 
-We obtain classical stability because for all $\epsilon\in(0,\infty)$ and $(t,e)\in T\times E$, and suppressing the inclusions $i$, we have:
+We obtain classical stability because for all $\epsilon\in(0,\infty)$ and $(t,e)\in T\times X$, and suppressing the inclusions $i$, we have:
 \[
-  \Delta(\epsilon)\geq \|e\|
+  \Delta(\epsilon)\geq \|x\|
   \quad\implies\quad
-	\epsilon\geq\|\Phi(t,e)\|.
+	\epsilon\geq\|\Phi(t,x)\|.
 \]
 
 
